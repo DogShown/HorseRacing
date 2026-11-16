@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createInitialHorses, saveHorseProfile } from "../data/horses.js";
+import { createInitialHorses, HORSES, saveHorseProfile } from "../data/horses.js";
 import {
   FINISH_DELAY_MS,
   POINTS_PER_WIN,
@@ -12,6 +12,8 @@ import {
   buildClassification,
   findFinishGroups,
   parseSavedScore,
+  parseParticipantScores,
+  addParticipantPoints,
 } from "../game/raceEngine.js";
 
 function readStoredNumber(key) {
@@ -19,6 +21,14 @@ function readStoredNumber(key) {
     return parseSavedScore(window.localStorage.getItem(key));
   } catch {
     return 0;
+  }
+}
+
+function readParticipantScores() {
+  try {
+    return parseParticipantScores(window.localStorage.getItem(STORAGE_KEYS.PARTICIPANT_SCORES), HORSES.map((horse) => horse.id));
+  } catch {
+    return Object.fromEntries(HORSES.map((horse) => [horse.id, 0]));
   }
 }
 
@@ -49,6 +59,7 @@ export function useRaceGame() {
   const [bestScore, setBestScore] = useState(() => readStoredNumber(STORAGE_KEYS.BEST_SCORE));
   const [racesPlayed, setRacesPlayed] = useState(() => readStoredNumber(STORAGE_KEYS.RACES_PLAYED));
   const [wins, setWins] = useState(() => readStoredNumber(STORAGE_KEYS.WINS));
+  const [participantScores, setParticipantScores] = useState(readParticipantScores);
   const [raceMessage, setRaceMessage] = useState(
     "Escolha seu cavalo e prepare-se para a corrida."
   );
@@ -81,6 +92,13 @@ export function useRaceGame() {
   useEffect(() => {
     if (!persistNumber(STORAGE_KEYS.WINS, wins)) setStorageWarning(true);
   }, [wins]);
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEYS.PARTICIPANT_SCORES, JSON.stringify(participantScores));
+    } catch {
+      setStorageWarning(true);
+    }
+  }, [participantScores]);
 
   useEffect(() => {
     if (!isRacing) return undefined;
@@ -121,6 +139,10 @@ export function useRaceGame() {
         setRanking(finalRanking);
         setWinners(firstPlaceGroup);
         setIsRacing(false);
+
+        if (firstPlaceGroup.length === 1) {
+          setParticipantScores((current) => addParticipantPoints(current, firstPlaceGroup[0].id, POINTS_PER_WIN));
+        }
         setRacesPlayed((total) => total + 1);
 
         if (playerWon) {
@@ -226,6 +248,7 @@ export function useRaceGame() {
     bestScore,
     racesPlayed,
     wins,
+    participantScores,
     storageWarning,
     raceMessage,
     startRace,
