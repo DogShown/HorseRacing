@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createInitialHorses } from "../data/horses.js";
+import { createInitialHorses, saveHorseProfile } from "../data/horses.js";
 import {
   FINISH_DELAY_MS,
   POINTS_PER_WIN,
@@ -162,6 +162,18 @@ export function useRaceGame() {
       clearRaceTimers();
     };
   }, []);
+
+  function updateHorseProfile(horseId, field, value) {
+    if (raceActiveRef.current || !["name", "breed", "participant"].includes(field)) return;
+    const limits = { name: 22, breed: 32, participant: 22 };
+    const cleanValue = String(value).slice(0, limits[field]);
+    saveHorseProfile(horseId, { [field]: cleanValue });
+    const updated = raceHorsesRef.current.map((horse) =>
+      horse.id === horseId ? { ...horse, [field]: cleanValue } : horse
+    );
+    raceHorsesRef.current = updated;
+    setHorses(updated);
+  }
 
   function selectHorse(horseId) {
     if (raceActiveRef.current) return;
