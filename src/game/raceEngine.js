@@ -84,3 +84,22 @@ export function buildClassification(finishGroups) {
     return rows;
   });
 }
+
+
+export function parseParticipantScores(rawValue, horseIds) {
+  let stored;
+  try {
+    stored = JSON.parse(rawValue ?? "{}");
+  } catch {
+    stored = {};
+  }
+  if (!stored || typeof stored !== "object" || Array.isArray(stored)) stored = {};
+  return Object.fromEntries(horseIds.map((id) => [id, parseSavedScore(stored[id])]));
+}
+
+export function addParticipantPoints(scores, horseId, points) {
+  const current = parseSavedScore(scores?.[horseId]);
+  const safePoints = parseSavedScore(points);
+  if (current > Number.MAX_SAFE_INTEGER - safePoints) return scores;
+  return { ...scores, [horseId]: current + safePoints };
+}
