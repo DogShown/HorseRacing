@@ -1,4 +1,4 @@
-name: Build validation
+name: Build and test validation
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Baixar o código
@@ -18,5 +18,7 @@ jobs:
           node-version: 22
       - name: Instalar dependências
         run: npm install
+      - name: Executar testes automatizados
+        run: npm test
       - name: Validar build de produção
         run: npm run build
