@@ -164,9 +164,10 @@ export function useRaceGame() {
   }, []);
 
   function updateHorseProfile(horseId, field, value) {
-    if (raceActiveRef.current || !["name", "breed", "participant"].includes(field)) return;
+    if (raceActiveRef.current || !["name", "breed", "participant", "color"].includes(field)) return;
+    if (field === "color" && !/^#[0-9a-fA-F]{6}$/.test(String(value))) return;
     const limits = { name: 22, breed: 32, participant: 22 };
-    const cleanValue = String(value).slice(0, limits[field]);
+    const cleanValue = field === "color" ? String(value).toLowerCase() : String(value).slice(0, limits[field]);
     saveHorseProfile(horseId, { [field]: cleanValue });
     const updated = raceHorsesRef.current.map((horse) =>
       horse.id === horseId ? { ...horse, [field]: cleanValue } : horse
