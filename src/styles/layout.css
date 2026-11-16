@@ -46,3 +46,11 @@
 @keyframes sparkle { 0%,100% { opacity: .45; scale: .8; } 50% { opacity: 1; scale: 1.2; } }
 .section-heading h2 { transition: letter-spacing .3s ease, color .3s ease; }
 .section-heading:hover h2 { letter-spacing: .7px; }
+
+
+.hero-horse {
+  color: var(--horse-color, #8b7355);
+  filter: grayscale(.45) sepia(.12) drop-shadow(0 9px 0 rgba(32,43,36,.12));
+  text-shadow: 0 8px 22px color-mix(in srgb, var(--horse-color, #8b7355) 48%, transparent);
+}
+.hero-horse span { display: inline-block; }
