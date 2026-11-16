@@ -1,4 +1,9 @@
-export const FINISH_TIE_EPSILON = 1e-9;
+import {
+  BASE_SPEED,
+  FINISH_TIE_EPSILON,
+  RACE_DISTANCE,
+  SPEED_VARIATION,
+} from "./constants.js";
 
 export function parseSavedScore(rawValue) {
   if (rawValue === null || rawValue === undefined || String(rawValue).trim() === "") {
@@ -11,18 +16,17 @@ export function parseSavedScore(rawValue) {
 
 export function advanceHorses(horses, random = Math.random) {
   return horses.map((horse) => {
+    if (horse.progress >= RACE_DISTANCE) return horse;
+
     const sample = random();
     const normalizedSample = Number.isFinite(sample)
       ? Math.min(1, Math.max(0, sample))
       : 0.5;
-
-    // Todos recebem a mesma velocidade-base e a mesma faixa de variação.
-    // A ordem dos cavalos não altera seus parâmetros nem cria bônus fixos.
-    const speed = 1.5 + normalizedSample * 1.8;
+    const speed = BASE_SPEED + normalizedSample * SPEED_VARIATION;
 
     return {
       ...horse,
-      progress: Math.min(100, horse.progress + speed),
+      progress: Math.min(RACE_DISTANCE, horse.progress + speed),
     };
   });
 }
@@ -33,13 +37,17 @@ export function findFinishers(previousHorses, advancedHorses) {
       const previousProgress = previousHorses[index].progress;
       const distanceCovered = horse.progress - previousProgress;
 
-      if (previousProgress >= 100 || horse.progress < 100 || distanceCovered <= 0) {
+      if (
+        previousProgress >= RACE_DISTANCE ||
+        horse.progress < RACE_DISTANCE ||
+        distanceCovered <= 0
+      ) {
         return null;
       }
 
       return {
         horse,
-        crossingTime: (100 - previousProgress) / distanceCovered,
+        crossingTime: (RACE_DISTANCE - previousProgress) / distanceCovered,
       };
     })
     .filter(Boolean);
@@ -56,4 +64,14 @@ export function findFinishers(previousHorses, advancedHorses) {
         Math.abs(candidate.crossingTime - firstCrossingTime) <= FINISH_TIE_EPSILON
     )
     .map((candidate) => candidate.horse);
+}
+
+export function buildClassification(finishGroups) {
+  let position = 1;
+
+  return finishGroups.flatMap((group) => {
+    const rows = group.map((horse) => ({ horse, position }));
+    position += group.length;
+    return rows;
+  });
 }
