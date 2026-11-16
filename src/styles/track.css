@@ -1,90 +1,22 @@
-.track-section { margin-top: 30px; }
+.track-section { margin-top: 32px; }
 .track-heading { align-items: center; }
 .race-status { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 10px; }
-.race-status span { flex: 0 0 7px; width: 7px; height: 7px; background: #7f8c7e; }
-.race-status.live { color: #ef9b7f; }
-.race-status.live span { background: var(--coral); animation: blink .8s infinite alternate; }
-.race-track {
-  position: relative;
-  padding: 37px 16px 16px;
-  overflow: hidden;
-  border: 1px solid rgba(37, 45, 39, .2);
-  border-radius: 4px;
-  background: #d8dfc9;
-}
+.race-status span { flex: 0 0 7px; width: 7px; height: 7px; background: #87917f; }
+.race-status.live { color: #d9a1a2; }
+.race-status.live span { background: var(--color-coral); animation: blink .8s infinite alternate; }
+.race-track { position: relative; padding: 38px 16px 17px; overflow: hidden; border: 1px solid rgba(201,164,92,.42); border-radius: 3px; background: linear-gradient(180deg, #d9dfc9 0%, #c8d2b6 100%); box-shadow: inset 0 0 0 4px rgba(255,255,255,.18); }
 .track-skyline { position: absolute; top: 5px; left: 12%; color: rgba(255,255,255,.8); font-size: 18px; pointer-events: none; }
-.track-start { position: absolute; z-index: 2; top: 10px; left: 48px; color: #43533e; font-size: 9px; }
+.track-start { position: absolute; z-index: 2; top: 11px; left: 48px; color: #43533e; font-size: 9px; letter-spacing: .7px; }
 .track-finish { position: absolute; z-index: 3; top: 5px; right: 12px; font-size: 25px; }
-.lane {
-  position: relative;
-  height: 65px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  padding: 0 8px;
-  border-radius: 2px;
-  background: repeating-linear-gradient(0deg, #91ad76 0 2px, #9bb781 2px 4px);
-}
+.lane { position: relative; height: 65px; display: flex; align-items: center; margin-bottom: 5px; padding: 0 8px; border-radius: 2px; background: repeating-linear-gradient(0deg, #81996d 0 2px, #8da779 2px 4px); box-shadow: inset 0 1px rgba(255,255,255,.18); }
 .lane:last-of-type { margin-bottom: 0; }
-.lane-number {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  flex: 0 0 24px;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
-  background: #465b43;
-  color: #fff;
-  font-size: 9px;
-}
-.lane-ground {
-  position: relative;
-  flex: 1;
-  height: 100%;
-  margin-left: 7px;
-  border-right: 5px solid rgba(255,255,255,.85);
-  background: repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,.2) 38px 40px);
-}
-.runner {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 48px;
-  transform: translate(-50%, -50%);
-  transition: left .09s linear;
-}
+.lane-number { position: relative; z-index: 2; display: grid; flex: 0 0 25px; place-items: center; width: 25px; height: 25px; border: 1px solid rgba(255,255,255,.65); border-radius: 50%; background: #344b3b; color: #fff; font-size: 9px; }
+.lane-ground { position: relative; flex: 1; height: 100%; margin-left: 7px; border-right: 5px solid rgba(255,255,255,.9); background: repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,.2) 38px 40px); }
+.runner { position: absolute; z-index: 1; top: 50%; display: flex; flex-direction: column; align-items: center; width: 48px; transform: translate(-50%, -50%); transition: left .09s linear; }
 .runner-sprite { display: block; font-size: 32px; line-height: 1; transform: scaleX(-1); }
 .runner.running .runner-sprite { animation: gallop .22s infinite alternate; }
-.runner-name {
-  padding: 2px 5px;
-  border-radius: 2px;
-  background: #344537;
-  color: #fff;
-  font-size: 8px;
-}
+.runner-name { padding: 2px 5px; border: 1px solid rgba(255,255,255,.18); border-radius: 2px; background: #263b30; color: #fff; font-size: 8px; }
 .winner-runner .runner-sprite { filter: drop-shadow(0 0 4px #fff); }
-.track-grass {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 7px;
-  background: repeating-linear-gradient(90deg, #668b55 0 12px, #779b62 12px 24px);
-  pointer-events: none;
-}
+.track-grass { position: absolute; right: 0; bottom: 0; left: 0; height: 7px; background: repeating-linear-gradient(90deg, #536f49 0 12px, #69845a 12px 24px); pointer-events: none; }
 .track-hint { margin: 9px 2px 0; color: var(--muted); font-size: 11px; }
-.lane-progress {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: 2px 0 0 2px;
-  background: rgba(255,255,255,.2);
-  transition: width .09s linear;
-  pointer-events: none;
-}
+.lane-progress { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 2px 0 0 2px; background: rgba(255,255,255,.2); transition: width .09s linear; pointer-events: none; }
