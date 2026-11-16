@@ -68,3 +68,60 @@
     transition-duration: .01ms !important;
   }
 }
+
+
+@media (max-width:1050px) {
+ .game-layout { grid-template-columns:minmax(0,1fr) 285px; gap:20px; }
+ .horse-options { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .topbar-nav { gap:14px; }
+}
+@media (max-width:760px) {
+ .app-shell { width:calc(100% - 32px); }
+ .topbar { flex-wrap:wrap; padding:15px 0; }
+ .topbar-nav { order:3; width:100%; justify-content:center; padding-top:10px; border-top:1px solid var(--color-border); }
+ .game-layout { grid-template-columns:1fr; }
+ .game-sidebar { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .leaderboard-card,.how-to-card { grid-column:1/-1; }
+ .hero { min-height:360px; padding:38px 28px 66px; }
+ .hero-copy { max-width:72%; }
+ .hero-art { right:-4%; width:42%; }
+ .hero-horse { font-size:clamp(100px,22vw,160px); }
+}
+@media (max-width:560px) {
+ .app-shell { width:calc(100% - 24px); }
+ .topbar-stats { margin-left:auto; gap:9px; }
+ .topbar-score { font-size:8px; }
+ .topbar-nav { justify-content:space-between; }
+ .topbar-nav a { font-size:10px; }
+ .hero { min-height:335px; margin:18px 0 30px; padding:30px 19px 65px; }
+ .hero-copy { max-width:82%; }
+ .hero h1 { font-size:clamp(47px,12vw,67px); }
+ .hero-copy > p { max-width:290px; font-size:12px; }
+ .hero-art { right:-18%; width:48%; opacity:.58; }
+ .hero-horse { font-size:112px; }
+ .hero-orbit { width:210px; }
+ .hero-number { top:15%; right:15%; font-size:25px; }
+ .hero-ribbon { bottom:17%; font-size:7px; }
+ .hero-actions { align-items:flex-start; flex-direction:column; gap:11px; margin-top:19px; }
+ .hero-cta { padding:12px 13px; font-size:9px; }
+ .hero-foot { right:13px; left:13px; font-size:6px; }
+ .section-heading h2 { font-size:29px; }
+ .section-count { font-size:7px; }
+ .horse-options { gap:8px; }
+ .horse-card { padding:9px; }
+ .horse-pick { min-height:135px; }
+ .horse-name { font-size:19px; }
+ .game-sidebar { gap:9px; }
+ .score-card,.controls-card,.statistics-card { padding:13px; }
+ .controls-card h3 { font-size:20px; }
+ .score-card > strong { font-size:39px; }
+ .race-track { padding:48px 8px 13px; }
+ .lane { height:58px; }
+ .runner-sprite { font-size:31px; }
+ .track-atmosphere { right:10px; left:10px; font-size:6px; }
+ .track-start { left:40px; }
+ .result-panel { flex-wrap:wrap; }
+ .result-copy { flex-basis:calc(100% - 48px); }
+ .play-again-button { width:100%; }
+ .footer { flex-direction:column; font-size:7px; }
+}
