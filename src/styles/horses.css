@@ -88,3 +88,24 @@
 .horse-card:hover:not(:disabled) { transform: translateY(-4px) scale(1.012); }
 .horse-avatar { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
 .horse-card:hover .horse-avatar { transform: translateY(-3px) rotate(-7deg) scale(1.08); }
+
+
+/* Personalização da pelagem e ícones vetoriais */
+.horse-avatar { display: grid; place-items: center; width: 48px; height: 42px; filter: none; }
+.horse-avatar svg { display: block; width: 48px; height: 42px; }
+.runner-sprite { width: 46px; height: 38px; }
+.runner-sprite svg { display: block; width: 46px; height: 38px; }
+.runner.running .runner-sprite svg { transform: scaleX(-1); }
+.runner.running .runner-sprite { animation: gallop .2s ease-in-out infinite alternate; }
+.hero-horse svg { display: block; width: 100%; height: 100%; }
+.horse-color-field input[type="color"] {
+  width: 100%;
+  height: 34px;
+  min-height: 34px;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  background: var(--panel);
+  cursor: pointer;
+}
+.horse-color-field input[type="color"]:disabled { cursor: not-allowed; opacity: .65; }
