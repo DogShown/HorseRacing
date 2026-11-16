@@ -9,8 +9,8 @@
   padding: 14px;
   overflow: hidden;
   border: 1px solid var(--color-border);
-  border-bottom: 3px solid rgba(244, 240, 231, .18);
-  border-radius: 5px;
+  border-bottom: 2px solid rgba(201, 164, 92, .28);
+  border-radius: 3px;
   background: var(--panel);
   color: var(--color-text);
   text-align: left;
@@ -21,10 +21,10 @@
 .horse-card.selected {
   border-color: var(--horse-accent);
   border-bottom-color: var(--horse-accent);
-  background: color-mix(in srgb, var(--panel) 88%, var(--horse-accent));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--panel-light) 88%, var(--horse-accent)), var(--panel));
 }
 .horse-card.gold { --horse-accent: var(--yellow); }
-.horse-card.coral { --horse-accent: var(--coral); }
+.horse-card.coral { --horse-accent: #b86b72; }
 .horse-card.mint { --horse-accent: var(--mint); }
 .horse-number { color: var(--muted); font-size: 10px; }
 .horse-avatar {
