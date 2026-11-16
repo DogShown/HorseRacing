@@ -34,9 +34,37 @@ function validateHorseCollection(componentName, horses) {
 
 function HorseIcon({ color = "#8b7355", className = "" }) {
   return (
-    <svg className={className} viewBox="0 0 96 72" role="img" aria-label="Ícone de cavalo">
-      <path fill={color} d="M8 35c7-2 11-8 17-12 8-5 20-6 30-2l8-10 13-5 9 5-2 8 7 7-3 7-12-2-8 5-5 12 4 20h-8l-8-19-13 1-5 18h-8l1-20-11-2-5 20h-8l2-23-8-5c-3-2-2-5 2-5zm47-18 7 3 4-8-8 2zM9 34c-4 0-7-3-8-7 6 1 10 0 14-4l3 5z" />
-      <path fill={color} d="m62 10 3-8 5 8z" />
+    <svg
+      className={className}
+      viewBox="0 0 128 96"
+      role="img"
+      aria-label="Ilustração de cavalo de corrida"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill={color}>
+        {/* Cauda e garupa */}
+        <path d="M25 43C17 38 12 29 8 22c-2-4-5-3-6 0-2 9 5 22 17 29l8 3z" />
+        {/* Corpo */}
+        <path d="M24 43c8-9 21-13 36-12 12 1 20 6 27 12l-5 17c-12 5-34 5-49-1-8-3-12-8-9-16z" />
+        {/* Pescoço */}
+        <path d="M73 43c7-10 10-22 17-31 4-5 11-7 17-4 4 2 5 7 2 11l-8 10c-2 8-1 17 5 25l-13 9-17-8z" />
+        {/* Cabeça e focinho */}
+        <path d="M98 13c6-7 15-8 21-3 5 4 5 10 1 14l-8 5-13-3-7-7z" />
+        {/* Orelhas */}
+        <path d="m101 9 1-8 6 8zm10-1 5-6 2 10z" />
+        {/* Crina */}
+        <path d="M78 31c2-12 8-23 17-29-2 8-1 13 3 17-8 2-10 7-12 15z" opacity=".78" />
+        {/* Pernas dianteiras em galope */}
+        <path d="M83 57c4 3 8 7 11 12l13 7-3 5-19-7-10-13zm-8 1c-1 8-4 14-10 19l-4 12-6-1 2-16 10-20z" />
+        {/* Pernas traseiras */}
+        <path d="M36 58c-4 7-9 11-17 13L9 83l-5-3 8-18 15-14zm14 4c4 7 5 13 3 20l5 9-6 3-10-10 1-18z" />
+      </g>
+      <g fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 20C1 12 2 7 7 4" strokeWidth="3" />
+        <path d="M91 13c4 5 7 7 12 8" strokeWidth="2" opacity=".55" />
+      </g>
+      <circle cx="115" cy="16" r="1.8" fill="#202b24" />
+      <path d="m121 23 4 1" stroke="#202b24" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }
