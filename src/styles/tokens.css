@@ -1,26 +1,76 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@500;600;700;800;900;1000&display=swap");
 
+/* =========================================================
+   DESIGN TOKENS
+   Ajuste aqui a identidade visual global do HORSE DASH!
+   ========================================================= */
+
 :root {
-  font-family: "Nunito", system-ui, sans-serif;
-  color: #f8f7ff;
-  background: #17152f;
+  /* Tipografia */
+  --font-body: "Nunito", system-ui, sans-serif;
+  --font-mono: "DM Mono", monospace;
+
+  /* Cores da marca */
+  --color-bg: #17152f;
+  --color-surface: #24204a;
+  --color-surface-raised: #302a5c;
+  --color-gold: #ffcb57;
+  --color-coral: #ff7777;
+  --color-mint: #65e6c4;
+  --color-text: #f8f7ff;
+  --color-text-muted: #aaa6c8;
+  --color-border: rgba(255, 255, 255, .1);
+  --color-focus: #65e6c4;
+
+  /* Fundos e efeitos */
+  --shadow-card: 0 12px 30px rgba(8, 7, 24, .16);
+  --shadow-glow-mint: 0 0 10px rgba(101, 230, 196, .7);
+  --shadow-glow-coral: 0 0 10px rgba(255, 119, 119, .7);
+
+  /* Espaçamento */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Cantos e largura */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 25px;
+  --content-width: 1180px;
+
+  /* Movimento */
+  --transition-fast: 150ms ease;
+  --transition-normal: 180ms ease;
+
+  /* Compatibilidade com os nomes já utilizados nos componentes */
+  --bg: var(--color-bg);
+  --panel: var(--color-surface);
+  --panel-light: var(--color-surface-raised);
+  --yellow: var(--color-gold);
+  --coral: var(--color-coral);
+  --mint: var(--color-mint);
+  --muted: var(--color-text-muted);
+  --mono: var(--font-mono);
+
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-optical-sizing: auto;
   font-weight: 600;
-  --bg: #17152f;
-  --panel: #24204a;
-  --panel-light: #302a5c;
-  --yellow: #ffcb57;
-  --coral: #ff7777;
-  --mint: #65e6c4;
-  --muted: #aaa6c8;
-  --mono: "DM Mono", monospace;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   min-width: 320px;
@@ -28,9 +78,20 @@ body {
   margin: 0;
   background:
     radial-gradient(ellipse at 80% 0%, rgba(91, 67, 160, .2), transparent 35rem),
-    var(--bg);
+    var(--color-bg);
 }
 
-button, a { font: inherit; }
-button:focus-visible, a:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
-button:disabled { cursor: not-allowed; }
+button,
+a {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
