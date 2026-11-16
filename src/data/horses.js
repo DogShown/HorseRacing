@@ -31,6 +31,7 @@ export function createInitialHorses() {
       name: typeof saved.name === "string" && saved.name.trim() ? saved.name.trim().slice(0, 22) : horse.name,
       breed: typeof saved.breed === "string" && saved.breed.trim() ? saved.breed.trim().slice(0, 32) : horse.breed,
       participant: typeof saved.participant === "string" && saved.participant.trim() ? saved.participant.trim().slice(0, 22) : horse.participant,
+      color: typeof saved.color === "string" && /^#[0-9a-fA-F]{6}$/.test(saved.color) ? saved.color.toLowerCase() : horse.color,
       progress: 0,
     };
   });
