@@ -26,7 +26,7 @@ export function advanceHorses(horses, random = Math.random) {
 
     return {
       ...horse,
-      progress: Math.min(RACE_DISTANCE, horse.progress + speed),
+      progress: horse.progress + speed,
     };
   });
 }
