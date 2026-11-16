@@ -192,6 +192,7 @@ export default function App() {
     bestScore,
     racesPlayed,
     wins,
+    storageWarning,
     raceMessage,
     startRace,
     resetGame,
@@ -232,6 +233,11 @@ export default function App() {
         </div>
 
         <aside className="game-sidebar" aria-label="Painel do jogo">
+          {storageWarning && (
+            <p className="storage-warning" role="alert">
+              O navegador bloqueou o armazenamento local. Você pode continuar jogando, mas sua pontuação e estatísticas talvez não sejam salvas.
+            </p>
+          )}
           <div className="score-card">
             <p className="eyebrow">SUA PONTUAÇÃO</p>
             <strong aria-live="polite" aria-atomic="true">{score}</strong>
