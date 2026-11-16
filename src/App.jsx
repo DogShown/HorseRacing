@@ -54,8 +54,15 @@ function HorseSelector({ selectedHorse, onSelect, disabled }) {
   );
 }
 
-function RaceTrack({ horses, isRacing, winner }) {
-  const status = isRacing ? "Corrida em andamento" : winner ? "Corrida finalizada" : "Aguardando início";
+function RaceTrack({ horses, isRacing, winners }) {
+  const winnerIds = new Set(winners.map((horse) => horse.id));
+  const status = isRacing
+    ? "Corrida em andamento"
+    : winners.length > 1
+      ? "Empate"
+      : winners.length === 1
+        ? "Corrida finalizada"
+        : "Aguardando início";
 
   return (
     <section className="track-section" aria-labelledby="race-title">
@@ -87,7 +94,7 @@ function RaceTrack({ horses, isRacing, winner }) {
             <span className="lane-number" aria-hidden="true">0{index + 1}</span>
             <div className="lane-ground">
               <div
-                className={`runner ${horse.style} ${isRacing ? "running" : ""} ${winner?.id === horse.id ? "winner-runner" : ""}`}
+                className={`runner ${horse.style} ${isRacing ? "running" : ""} ${winnerIds.has(horse.id) ? "winner-runner" : ""}`}
                 style={{ left: `${Math.min(horse.progress, 95)}%`, "--horse-color": horse.color }}
               >
                 <span className="runner-sprite" aria-hidden="true">{horse.emoji}</span>
@@ -103,20 +110,42 @@ function RaceTrack({ horses, isRacing, winner }) {
   );
 }
 
-function ResultPanel({ winner, selectedHorse, onPlayAgain }) {
-  if (!winner) return null;
+function ResultPanel({ winners, selectedHorse, onPlayAgain }) {
+  if (winners.length === 0) return null;
 
-  const playerWon = winner.id === selectedHorse;
+  const isDraw = winners.length > 1;
+  const playerWon = !isDraw && winners[0].id === selectedHorse;
+  const names = winners.map((horse) => horse.name).join(" e ");
 
   return (
-    <section className={`result-panel ${playerWon ? "result-win" : "result-again"}`} aria-live="polite">
-      <span className="result-icon" aria-hidden="true">{playerWon ? "🏆" : "🎮"}</span>
+    <section
+      className={`result-panel ${playerWon ? "result-win" : "result-again"}`}
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span className="result-icon" aria-hidden="true">
+        {isDraw ? "🤝" : playerWon ? "🏆" : "🎮"}
+      </span>
       <div className="result-copy">
-        <p className="eyebrow">{playerWon ? "VITÓRIA!" : "BOA TENTATIVA!"}</p>
-        <h2>{winner.name} cruzou a linha de chegada!</h2>
-        <p>{playerWon ? "Seu cavalo venceu! Você ganhou 100 pontos." : "Dessa vez não foi o seu cavalo. Tente novamente!"}</p>
+        <p className="eyebrow">
+          {isDraw ? "EMPATE!" : playerWon ? "VITÓRIA!" : "BOA TENTATIVA!"}
+        </p>
+        <h2>
+          {isDraw
+            ? `${names} cruzaram juntos a linha de chegada!`
+            : `${names} cruzou a linha de chegada!`}
+        </h2>
+        <p>
+          {isDraw
+            ? "A corrida terminou empatada. Nenhum ponto foi adicionado."
+            : playerWon
+              ? "Seu cavalo venceu! Você ganhou 100 pontos."
+              : "Dessa vez não foi o seu cavalo. Tente novamente!"}
+        </p>
       </div>
-      <button className="play-again-button" type="button" onClick={onPlayAgain}>NOVA CORRIDA ↗</button>
+      <button className="play-again-button" type="button" onClick={onPlayAgain}>
+        NOVA CORRIDA ↗
+      </button>
     </section>
   );
 }
@@ -127,7 +156,7 @@ export default function App() {
     selectHorse,
     horses,
     isRacing,
-    winner,
+    winners,
     score,
     raceMessage,
     startRace,
@@ -168,9 +197,9 @@ export default function App() {
             onSelect={selectHorse}
             disabled={isRacing}
           />
-          <RaceTrack horses={horses} isRacing={isRacing} winner={winner} />
+          <RaceTrack horses={horses} isRacing={isRacing} winners={winners} />
           <ResultPanel
-            winner={winner}
+            winners={winners}
             selectedHorse={selectedHorse}
             onPlayAgain={resetGame}
           />
@@ -186,7 +215,7 @@ export default function App() {
 
           <div className="controls-card">
             <p className="eyebrow">CONTROLES DA CORRIDA</p>
-            <h3>{isRacing ? "Os cavalos estão correndo!" : winner ? "Pronto para outra?" : "Vamos começar?"}</h3>
+            <h3>{isRacing ? "Os cavalos estão correndo!" : winners.length ? "Pronto para outra?" : "Vamos começar?"}</h3>
             <p className="race-message" role="status" aria-live="polite">{raceMessage}</p>
             <button
               className="start-button"
@@ -194,7 +223,7 @@ export default function App() {
               onClick={startRace}
               disabled={isRacing}
             >
-              {isRacing ? "CORRIDA EM ANDAMENTO..." : winner ? "CORRER NOVAMENTE" : "INICIAR CORRIDA"} <span aria-hidden="true">▶</span>
+              {isRacing ? "CORRIDA EM ANDAMENTO..." : winners.length ? "CORRER NOVAMENTE" : "INICIAR CORRIDA"} <span aria-hidden="true">▶</span>
             </button>
             <p className="control-note">Você pode trocar de cavalo antes de cada corrida.</p>
           </div>
