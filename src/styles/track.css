@@ -13,8 +13,8 @@
 .lane-number { position: relative; z-index: 2; display: grid; flex: 0 0 25px; place-items: center; width: 25px; height: 25px; border: 1px solid rgba(255,255,255,.65); border-radius: 50%; background: #344b3b; color: #fff; font-size: 9px; }
 .lane-ground { position: relative; flex: 1; height: 100%; margin-left: 7px; border-right: 5px solid rgba(255,255,255,.9); background: repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,.2) 38px 40px); }
 .runner { position: absolute; z-index: 1; top: 50%; display: flex; flex-direction: column; align-items: center; width: 48px; transform: translate(-50%, -50%); transition: left .09s linear; }
-.runner-sprite { display: block; font-size: 32px; line-height: 1; transform: scaleX(-1); }
-.runner.running .runner-sprite { animation: gallop .22s infinite alternate; }
+.runner-sprite { display: block; width: 60px; height: 46px; line-height: 1; }
+
 .runner-name { padding: 2px 5px; border: 1px solid rgba(255,255,255,.18); border-radius: 2px; background: #263b30; color: #fff; font-size: 8px; }
 .winner-runner .runner-sprite { filter: drop-shadow(0 0 4px #fff); }
 .track-grass { position: absolute; right: 0; bottom: 0; left: 0; height: 7px; background: repeating-linear-gradient(90deg, #536f49 0 12px, #69845a 12px 24px); pointer-events: none; }
