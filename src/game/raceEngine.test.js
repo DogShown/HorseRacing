@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   advanceHorses,
   buildClassification,
+  findFinishGroups,
   findFinishers,
   parseSavedScore,
 } from "./raceEngine.js";
@@ -75,6 +76,24 @@ test("retorna todos os competidores quando cruzam exatamente juntos", () => {
   assert.deepEqual(
     findFinishers(previous, advanced).map((horse) => horse.id),
     ["comet", "blaze", "pixel"]
+  );
+});
+
+test("classifica todos os cavalos que cruzam no mesmo ciclo, não apenas o primeiro", () => {
+  const previous = [
+    { id: "comet", progress: 98 },
+    { id: "blaze", progress: 99 },
+    { id: "pixel", progress: 97 },
+  ];
+  const advanced = [
+    { id: "comet", progress: 101 },
+    { id: "blaze", progress: 101 },
+    { id: "pixel", progress: 101 },
+  ];
+
+  assert.deepEqual(
+    findFinishGroups(previous, advanced).map((group) => group.map((horse) => horse.id)),
+    [["blaze"], ["comet"], ["pixel"]]
   );
 });
 
