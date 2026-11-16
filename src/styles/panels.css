@@ -1,0 +1,26 @@
+.game-sidebar { display: grid; gap: 13px; }
+.score-card, .controls-card, .how-to-card { position: relative; padding: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 15px; background: var(--panel); }
+.score-card > strong { display: block; color: var(--yellow); font-size: 43px; font-weight: 1000; line-height: 1.1; }
+.score-card > span { color: var(--muted); font: 9px var(--mono); letter-spacing: 1px; }
+.score-decoration { position: absolute; top: 23px; right: 17px; font-size: 35px; opacity: .8; }
+.controls-card h3 { margin: 7px 0 5px; font-size: 19px; font-weight: 1000; }
+.controls-card > p:not(.eyebrow) { min-height: 42px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.start-button { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding: 13px 15px; border: 0; border-radius: 9px; background: var(--yellow); color: #292044; font-size: 12px; font-weight: 1000; cursor: pointer; transition: transform .15s, filter .15s; }
+.start-button:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.06); }
+.start-button:disabled { opacity: .65; }
+.start-button span { font-size: 10px; }
+.control-note { margin-top: 10px !important; color: #817c9f !important; font-size: 8px !important; }
+.how-to-card ol { display: grid; gap: 12px; margin: 15px 0 0; padding: 0; list-style: none; }
+.how-to-card li { display: flex; align-items: center; gap: 9px; color: #d5d2e7; font-size: 10px; }
+.how-to-card li span { color: var(--mint); font: 10px var(--mono); }
+
+.result-panel { display: flex; align-items: center; gap: 14px; margin-top: 18px; padding: 16px; border: 1px solid rgba(101,230,196,.3); border-radius: 14px; background: rgba(101,230,196,.08); }
+.result-again { border-color: rgba(255,203,87,.3); background: rgba(255,203,87,.07); }
+.result-icon { font-size: 30px; }
+.result-copy { flex: 1; min-width: 0; }
+.result-copy h2 { margin: 2px 0; font-size: 15px; }
+.result-copy > p:last-child { margin: 0; color: var(--muted); font-size: 10px; }
+.result-win .eyebrow { color: var(--mint); }.result-again .eyebrow { color: var(--yellow); }
+.play-again-button { flex: 0 0 auto; padding: 10px 12px; border: 0; border-radius: 8px; background: var(--mint); color: #172b35; font-size: 9px; font-weight: 1000; cursor: pointer; }
+.footer { display: flex; justify-content: space-between; gap: 15px; margin: 34px 0 22px; padding-top: 17px; border-top: 1px solid rgba(255,255,255,.1); color: #77728f; font-size: 8px; letter-spacing: .5px; }
+.footer strong { color: var(--yellow); }
