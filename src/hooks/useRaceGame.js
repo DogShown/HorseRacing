@@ -10,7 +10,7 @@ import {
 import {
   advanceHorses,
   buildClassification,
-  findFinishers,
+  findFinishGroups,
   parseSavedScore,
 } from "../game/raceEngine.js";
 
@@ -92,13 +92,13 @@ export function useRaceGame() {
 
       const previousHorses = raceHorsesRef.current;
       const advancedHorses = advanceHorses(previousHorses);
-      const finishers = findFinishers(previousHorses, advancedHorses);
+      const finishGroups = findFinishGroups(previousHorses, advancedHorses);
 
       raceHorsesRef.current = advancedHorses;
       setHorses(advancedHorses);
 
-      if (finishers.length > 0) {
-        finishGroupsRef.current = [...finishGroupsRef.current, finishers];
+      if (finishGroups.length > 0) {
+        finishGroupsRef.current = [...finishGroupsRef.current, ...finishGroups];
       }
 
       const finishedCount = finishGroupsRef.current.reduce(
