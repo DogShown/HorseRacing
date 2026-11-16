@@ -1,0 +1,2 @@
+@keyframes gallop { from { transform: scaleX(-1) translateY(0) rotate(-4deg); } to { transform: scaleX(-1) translateY(-4px) rotate(4deg); } }
+@keyframes blink { to { opacity: .35; } }
