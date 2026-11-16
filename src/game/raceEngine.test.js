@@ -19,7 +19,7 @@ test("pontuação aceita apenas inteiros seguros e não negativos", () => {
 
 test("as regras centrais da corrida permanecem explícitas", () => {
   assert.equal(POINTS_PER_WIN, 100);
-  assert.equal(COMPETITOR_COUNT, 3);
+  assert.equal(COMPETITOR_COUNT, 8);
   assert.equal(RACE_DISTANCE, 100);
 });
 
