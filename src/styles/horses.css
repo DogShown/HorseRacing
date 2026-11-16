@@ -56,3 +56,19 @@
   font-size: 12px;
   font-weight: 800;
 }
+
+.horse-card { padding: 10px; gap: 7px; }
+.horse-pick { position: relative; width: 100%; min-height: 92px; display: flex; flex-direction: column; align-items: flex-start; padding: 4px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.horse-pick:disabled { cursor: not-allowed; }
+.horse-pick .horse-name { margin-top: 16px; overflow-wrap: anywhere; }
+.horse-field { display: grid; gap: 4px; color: var(--muted); font: 9px var(--mono); text-transform: uppercase; letter-spacing: .35px; }
+.horse-field input { width: 100%; min-width: 0; padding: 8px 7px; border: 1px solid var(--color-border); border-radius: 2px; background: rgba(0,0,0,.16); color: var(--color-text); font: 11px var(--font-body); text-transform: none; letter-spacing: 0; }
+.horse-field input:focus { outline: 2px solid var(--color-focus); outline-offset: 1px; }
+.horse-field input:disabled { opacity: .65; }
+.horse-card.silver { --horse-accent: #b9c6ce; }
+.horse-card.gold { --horse-accent: var(--yellow); }
+.horse-card.coral { --horse-accent: #b86b72; }
+.horse-card.mint { --horse-accent: var(--mint); }
+@media (min-width: 761px) { .horse-options { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .horse-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .horse-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } .horse-card { padding: 8px; } .horse-pick { min-height: 82px; } .horse-pick .horse-name { font-size: 17px; } .horse-field input { font-size: 10px; } }
