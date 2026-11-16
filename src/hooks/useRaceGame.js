@@ -1,21 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { createInitialHorses } from "../data/horses.js";
 import {
+  FINISH_DELAY_MS,
+  POINTS_PER_WIN,
+  RACE_STATES,
+  RACE_TICK_INTERVAL_MS,
+  STORAGE_KEYS,
+} from "../game/constants.js";
+import {
   advanceHorses,
+  buildClassification,
   findFinishers,
   parseSavedScore,
 } from "../game/raceEngine.js";
 
-const SCORE_STORAGE_KEY = "horse-dash-score";
-const TICK_INTERVAL = 90;
-const FINISH_DELAY = 350;
-const POINTS_PER_WIN = 100;
-
-function readSavedScore() {
+function readStoredNumber(key) {
   try {
-    return parseSavedScore(window.localStorage.getItem(SCORE_STORAGE_KEY));
+    return parseSavedScore(window.localStorage.getItem(key));
   } catch {
     return 0;
+  }
+}
+
+function persistNumber(key, value) {
+  try {
+    window.localStorage.setItem(key, String(value));
+  } catch {
+    // O jogo continua funcionando mesmo quando o armazenamento está indisponível.
   }
 }
 
@@ -31,7 +42,11 @@ export function useRaceGame() {
   const [horses, setHorses] = useState(createInitialHorses);
   const [isRacing, setIsRacing] = useState(false);
   const [winners, setWinners] = useState([]);
-  const [score, setScore] = useState(readSavedScore);
+  const [ranking, setRanking] = useState([]);
+  const [score, setScore] = useState(() => readStoredNumber(STORAGE_KEYS.SCORE));
+  const [bestScore, setBestScore] = useState(() => readStoredNumber(STORAGE_KEYS.BEST_SCORE));
+  const [racesPlayed, setRacesPlayed] = useState(() => readStoredNumber(STORAGE_KEYS.RACES_PLAYED));
+  const [wins, setWins] = useState(() => readStoredNumber(STORAGE_KEYS.WINS));
   const [raceMessage, setRaceMessage] = useState(
     "Escolha seu cavalo e prepare-se para a corrida."
   );
@@ -40,6 +55,7 @@ export function useRaceGame() {
   if (raceHorsesRef.current === null) {
     raceHorsesRef.current = createInitialHorses();
   }
+  const finishGroupsRef = useRef([]);
   const raceIntervalRef = useRef(null);
   const finishTimeoutRef = useRef(null);
   const raceIdRef = useRef(0);
@@ -50,13 +66,10 @@ export function useRaceGame() {
     clearTimer(finishTimeoutRef, window.clearTimeout);
   }
 
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(SCORE_STORAGE_KEY, String(score));
-    } catch {
-      // A partida continua jogável se o navegador bloquear o armazenamento.
-    }
-  }, [score]);
+  useEffect(() => persistNumber(STORAGE_KEYS.SCORE, score), [score]);
+  useEffect(() => persistNumber(STORAGE_KEYS.BEST_SCORE, bestScore), [bestScore]);
+  useEffect(() => persistNumber(STORAGE_KEYS.RACES_PLAYED, racesPlayed), [racesPlayed]);
+  useEffect(() => persistNumber(STORAGE_KEYS.WINS, wins), [wins]);
 
   useEffect(() => {
     if (!isRacing) return undefined;
@@ -73,44 +86,55 @@ export function useRaceGame() {
       raceHorsesRef.current = advancedHorses;
       setHorses(advancedHorses);
 
-      if (finishers.length === 0) return;
+      if (finishers.length > 0) {
+        finishGroupsRef.current = [...finishGroupsRef.current, finishers];
+      }
+
+      const finishedCount = finishGroupsRef.current.reduce(
+        (total, group) => total + group.length,
+        0
+      );
+
+      if (finishedCount < advancedHorses.length) return;
 
       clearTimer(raceIntervalRef, window.clearInterval);
-
       finishTimeoutRef.current = window.setTimeout(() => {
-        // Um callback antigo nunca pode concluir ou pontuar uma nova corrida.
         if (!raceActiveRef.current || raceIdRef.current !== currentRaceId) return;
 
         raceActiveRef.current = false;
-        setWinners(finishers);
+        const finalRanking = buildClassification(finishGroupsRef.current);
+        const firstPlaceGroup = finishGroupsRef.current[0] ?? [];
+        const playerWon =
+          firstPlaceGroup.length === 1 && firstPlaceGroup[0].id === selectedHorse;
+
+        setRanking(finalRanking);
+        setWinners(firstPlaceGroup);
         setIsRacing(false);
-
-        if (finishers.length > 1) {
-          setRaceMessage(
-            `Empate entre ${finishers.map((horse) => horse.name).join(" e ")}. Nenhum ponto foi adicionado.`
-          );
-          return;
-        }
-
-        const playerWon = finishers[0].id === selectedHorse;
+        setRacesPlayed((total) => total + 1);
 
         if (playerWon) {
           setRaceMessage(
-            `Parabéns! ${finishers[0].name} venceu e você ganhou ${POINTS_PER_WIN} pontos.`
+            `Parabéns! ${firstPlaceGroup[0].name} venceu e você ganhou ${POINTS_PER_WIN} pontos.`
           );
+          setWins((total) => total + 1);
           setScore((currentScore) => {
-            const safeScore = parseSavedScore(String(currentScore));
-            return safeScore <= Number.MAX_SAFE_INTEGER - POINTS_PER_WIN
-              ? safeScore + POINTS_PER_WIN
-              : safeScore;
+            const nextScore = currentScore <= Number.MAX_SAFE_INTEGER - POINTS_PER_WIN
+              ? currentScore + POINTS_PER_WIN
+              : currentScore;
+            setBestScore((currentBest) => Math.max(currentBest, nextScore));
+            return nextScore;
           });
+        } else if (firstPlaceGroup.length > 1) {
+          setRaceMessage(
+            `Empate em primeiro lugar entre ${firstPlaceGroup.map((horse) => horse.name).join(" e ")}. Nenhum ponto foi adicionado.`
+          );
         } else {
           setRaceMessage(
-            `${finishers[0].name} venceu. Que tal tentar outra corrida?`
+            `${firstPlaceGroup[0]?.name ?? "Outro competidor"} venceu. Que tal tentar outra corrida?`
           );
         }
-      }, FINISH_DELAY);
-    }, TICK_INTERVAL);
+      }, FINISH_DELAY_MS);
+    }, RACE_TICK_INTERVAL_MS);
 
     return () => {
       clearTimer(raceIntervalRef, window.clearInterval);
@@ -137,25 +161,28 @@ export function useRaceGame() {
     clearRaceTimers();
     raceIdRef.current += 1;
     raceActiveRef.current = true;
+    finishGroupsRef.current = [];
 
     const freshHorses = createInitialHorses();
     raceHorsesRef.current = freshHorses;
     setHorses(freshHorses);
     setWinners([]);
+    setRanking([]);
     setRaceMessage("A corrida começou! Torça pelo seu competidor.");
     setIsRacing(true);
   }
 
   function resetGame() {
-    // Invalida imediatamente o intervalo e qualquer timeout ainda pendente.
     raceActiveRef.current = false;
     raceIdRef.current += 1;
     clearRaceTimers();
+    finishGroupsRef.current = [];
 
     const freshHorses = createInitialHorses();
     raceHorsesRef.current = freshHorses;
     setHorses(freshHorses);
     setWinners([]);
+    setRanking([]);
     setIsRacing(false);
     setRaceMessage("Nova corrida! Escolha seu cavalo.");
   }
@@ -165,8 +192,13 @@ export function useRaceGame() {
     selectHorse,
     horses,
     isRacing,
+    raceState: isRacing ? RACE_STATES.RUNNING : ranking.length ? RACE_STATES.FINISHED : RACE_STATES.READY,
     winners,
+    ranking,
     score,
+    bestScore,
+    racesPlayed,
+    wins,
     raceMessage,
     startRace,
     resetGame,
