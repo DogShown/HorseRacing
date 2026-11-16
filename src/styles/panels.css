@@ -36,3 +36,5 @@
 .rank-horse { font-weight: 800; }
 .rank-label { margin-left: auto; color: var(--mint); font: 8px var(--mono); letter-spacing: .5px; }
 .storage-warning { margin: 0; padding: 11px 12px; border: 1px solid rgba(201,164,92,.55); border-radius: 3px; background: rgba(201,164,92,.1); color: #f0ddb6; font-size: 11px; line-height: 1.5; }
+
+.rank-horse small { color: var(--muted); font-size: 9px; font-weight: 500; }
