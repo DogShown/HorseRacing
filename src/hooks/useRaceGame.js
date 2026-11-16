@@ -25,8 +25,10 @@ function readStoredNumber(key) {
 function persistNumber(key, value) {
   try {
     window.localStorage.setItem(key, String(value));
+    return true;
   } catch {
     // O jogo continua funcionando mesmo quando o armazenamento está indisponível.
+    return false;
   }
 }
 
@@ -50,6 +52,7 @@ export function useRaceGame() {
   const [raceMessage, setRaceMessage] = useState(
     "Escolha seu cavalo e prepare-se para a corrida."
   );
+  const [storageWarning, setStorageWarning] = useState(false);
 
   const raceHorsesRef = useRef(null);
   if (raceHorsesRef.current === null) {
@@ -66,10 +69,18 @@ export function useRaceGame() {
     clearTimer(finishTimeoutRef, window.clearTimeout);
   }
 
-  useEffect(() => persistNumber(STORAGE_KEYS.SCORE, score), [score]);
-  useEffect(() => persistNumber(STORAGE_KEYS.BEST_SCORE, bestScore), [bestScore]);
-  useEffect(() => persistNumber(STORAGE_KEYS.RACES_PLAYED, racesPlayed), [racesPlayed]);
-  useEffect(() => persistNumber(STORAGE_KEYS.WINS, wins), [wins]);
+  useEffect(() => {
+    if (!persistNumber(STORAGE_KEYS.SCORE, score)) setStorageWarning(true);
+  }, [score]);
+  useEffect(() => {
+    if (!persistNumber(STORAGE_KEYS.BEST_SCORE, bestScore)) setStorageWarning(true);
+  }, [bestScore]);
+  useEffect(() => {
+    if (!persistNumber(STORAGE_KEYS.RACES_PLAYED, racesPlayed)) setStorageWarning(true);
+  }, [racesPlayed]);
+  useEffect(() => {
+    if (!persistNumber(STORAGE_KEYS.WINS, wins)) setStorageWarning(true);
+  }, [wins]);
 
   useEffect(() => {
     if (!isRacing) return undefined;
@@ -117,13 +128,15 @@ export function useRaceGame() {
             `Parabéns! ${firstPlaceGroup[0].name} venceu e você ganhou ${POINTS_PER_WIN} pontos.`
           );
           setWins((total) => total + 1);
-          setScore((currentScore) => {
-            const nextScore = currentScore <= Number.MAX_SAFE_INTEGER - POINTS_PER_WIN
+          setScore((currentScore) =>
+            currentScore <= Number.MAX_SAFE_INTEGER - POINTS_PER_WIN
               ? currentScore + POINTS_PER_WIN
-              : currentScore;
-            setBestScore((currentBest) => Math.max(currentBest, nextScore));
-            return nextScore;
-          });
+              : currentScore
+          );
+          const nextScore = score <= Number.MAX_SAFE_INTEGER - POINTS_PER_WIN
+            ? score + POINTS_PER_WIN
+            : score;
+          setBestScore((currentBest) => Math.max(currentBest, nextScore));
         } else if (firstPlaceGroup.length > 1) {
           setRaceMessage(
             `Empate em primeiro lugar entre ${firstPlaceGroup.map((horse) => horse.name).join(" e ")}. Nenhum ponto foi adicionado.`
@@ -199,6 +212,7 @@ export function useRaceGame() {
     bestScore,
     racesPlayed,
     wins,
+    storageWarning,
     raceMessage,
     startRace,
     resetGame,
