@@ -2,9 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   advanceHorses,
+  buildClassification,
   findFinishers,
   parseSavedScore,
 } from "./raceEngine.js";
+import { COMPETITOR_COUNT, POINTS_PER_WIN, RACE_DISTANCE } from "./constants.js";
 
 test("pontuação aceita apenas inteiros seguros e não negativos", () => {
   assert.equal(parseSavedScore("0"), 0);
@@ -12,6 +14,12 @@ test("pontuação aceita apenas inteiros seguros e não negativos", () => {
   for (const invalid of [null, "", "   ", "-1", "1.5", "NaN", "Infinity", "9007199254740992"]) {
     assert.equal(parseSavedScore(invalid), 0);
   }
+});
+
+test("as regras centrais da corrida permanecem explícitas", () => {
+  assert.equal(POINTS_PER_WIN, 100);
+  assert.equal(COMPETITOR_COUNT, 3);
+  assert.equal(RACE_DISTANCE, 100);
 });
 
 test("todos os cavalos usam a mesma faixa de velocidade", () => {
@@ -27,6 +35,11 @@ test("todos os cavalos usam a mesma faixa de velocidade", () => {
     advanced.map((horse) => horse.progress),
     [11.5, 12.4, 13.3]
   );
+});
+
+test("cavalos que já chegaram permanecem na linha de chegada", () => {
+  const horses = [{ id: "a", progress: RACE_DISTANCE }];
+  assert.deepEqual(advanceHorses(horses, () => 1), horses);
 });
 
 test("identifica o cruzamento mais rápido quando vários chegam no mesmo ciclo", () => {
@@ -70,4 +83,16 @@ test("não declara vencedor quando nenhum cavalo alcança a chegada", () => {
   const advanced = [{ id: "comet", progress: 22 }];
 
   assert.deepEqual(findFinishers(previous, advanced), []);
+});
+
+test("classificação preserva empates e posições seguintes", () => {
+  const groups = [
+    [{ id: "comet" }, { id: "blaze" }],
+    [{ id: "pixel" }],
+  ];
+
+  assert.deepEqual(
+    buildClassification(groups).map(({ horse, position }) => [horse.id, position]),
+    [["comet", 1], ["blaze", 1], ["pixel", 3]]
+  );
 });
