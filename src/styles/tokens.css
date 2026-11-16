@@ -1,33 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@500;600;700;800;900;1000&display=swap");
-
-/* =========================================================
-   DESIGN TOKENS
-   Ajuste aqui a identidade visual global do HORSE DASH!
-   ========================================================= */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
-  /* Tipografia */
-  --font-body: "Nunito", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-display: "Barlow Condensed", Impact, sans-serif;
   --font-mono: "DM Mono", monospace;
 
-  /* Cores da marca */
-  --color-bg: #17152f;
-  --color-surface: #24204a;
-  --color-surface-raised: #302a5c;
-  --color-gold: #ffcb57;
-  --color-coral: #ff7777;
-  --color-mint: #65e6c4;
-  --color-text: #f8f7ff;
-  --color-text-muted: #aaa6c8;
-  --color-border: rgba(255, 255, 255, .1);
-  --color-focus: #65e6c4;
+  /* Base esportiva: grafite, verde estábulo, papel e terracota. */
+  --color-bg: #1d2420;
+  --color-surface: #29332d;
+  --color-surface-raised: #354238;
+  --color-gold: #e5a34f;
+  --color-coral: #c96f53;
+  --color-mint: #a9bd91;
+  --color-text: #f4f0e7;
+  --color-text-muted: #b9c0b5;
+  --color-border: rgba(244, 240, 231, .16);
+  --color-focus: #f0b45f;
+  --color-paper: #eee7d8;
+  --color-ink: #252d27;
+  --color-track: #9bb57d;
 
-  /* Fundos e efeitos */
-  --shadow-card: 0 12px 30px rgba(8, 7, 24, .16);
-  --shadow-glow-mint: 0 0 10px rgba(101, 230, 196, .7);
-  --shadow-glow-coral: 0 0 10px rgba(255, 119, 119, .7);
+  --shadow-card: 0 8px 22px rgba(0, 0, 0, .16);
+  --shadow-glow-mint: 0 0 0 transparent;
+  --shadow-glow-coral: 0 0 0 transparent;
 
-  /* Espaçamento */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -36,18 +32,16 @@
   --space-6: 24px;
   --space-8: 32px;
 
-  /* Cantos e largura */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 25px;
+  --radius-sm: 5px;
+  --radius-md: 9px;
+  --radius-lg: 13px;
+  --radius-xl: 17px;
   --content-width: 1180px;
 
-  /* Movimento */
   --transition-fast: 150ms ease;
-  --transition-normal: 180ms ease;
+  --transition-normal: 200ms ease;
 
-  /* Compatibilidade com os nomes já utilizados nos componentes */
+  /* Aliases mantidos para compatibilidade com os componentes. */
   --bg: var(--color-bg);
   --panel: var(--color-surface);
   --panel-light: var(--color-surface-raised);
@@ -64,34 +58,27 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-optical-sizing: auto;
-  font-weight: 600;
+  font-weight: 500;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+
+html { background: var(--color-bg); }
 
 body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(ellipse at 80% 0%, rgba(91, 67, 160, .2), transparent 35rem),
-    var(--color-bg);
+  background: var(--color-bg);
 }
 
-button,
-a {
-  font: inherit;
-}
+button, a { font: inherit; }
 
-button:focus-visible,
-a:focus-visible {
+button:focus-visible, a:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
 }
 
-button:disabled {
-  cursor: not-allowed;
-}
+button:disabled { cursor: not-allowed; }
+
+::selection { color: var(--color-ink); background: var(--color-gold); }
