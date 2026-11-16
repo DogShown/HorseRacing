@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { POINTS_PER_WIN } from "./game/constants.js";
 import { useRaceGame } from "./hooks/useRaceGame.js";
 
@@ -212,9 +212,18 @@ function StatisticsPanel({ racesPlayed, wins }) {
 }
 
 export default function App() {
+  const shellRef = useRef(null);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      shellRef.current?.classList.add("is-ready");
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   const {
     selectedHorse,
     selectHorse,
+    updateHorseProfile,
     horses,
     isRacing,
     winners,
@@ -230,7 +239,7 @@ export default function App() {
   } = useRaceGame();
 
   return (
-    <main className="app-shell" id="home">
+    <main className="app-shell" id="home" ref={shellRef}>
       <Header score={score} bestScore={bestScore} />
 
       <section className="hero" aria-labelledby="hero-title">
