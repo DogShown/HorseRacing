@@ -72,3 +72,19 @@
 @media (min-width: 761px) { .horse-options { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .horse-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 420px) { .horse-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } .horse-card { padding: 8px; } .horse-pick { min-height: 82px; } .horse-pick .horse-name { font-size: 17px; } .horse-field input { font-size: 10px; } }
+
+
+.horse-card { opacity: 0; transform: translateY(10px) scale(.985); }
+.app-shell.is-ready .horse-card { animation: card-arrive .48s cubic-bezier(.2,.75,.25,1) forwards; }
+.app-shell.is-ready .horse-card:nth-child(1) { animation-delay: .08s; }
+.app-shell.is-ready .horse-card:nth-child(2) { animation-delay: .13s; }
+.app-shell.is-ready .horse-card:nth-child(3) { animation-delay: .18s; }
+.app-shell.is-ready .horse-card:nth-child(4) { animation-delay: .23s; }
+.app-shell.is-ready .horse-card:nth-child(5) { animation-delay: .28s; }
+.app-shell.is-ready .horse-card:nth-child(6) { animation-delay: .33s; }
+.app-shell.is-ready .horse-card:nth-child(7) { animation-delay: .38s; }
+.app-shell.is-ready .horse-card:nth-child(8) { animation-delay: .43s; }
+@keyframes card-arrive { to { opacity: 1; transform: translateY(0) scale(1); } }
+.horse-card:hover:not(:disabled) { transform: translateY(-4px) scale(1.012); }
+.horse-avatar { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.horse-card:hover .horse-avatar { transform: translateY(-3px) rotate(-7deg) scale(1.08); }
