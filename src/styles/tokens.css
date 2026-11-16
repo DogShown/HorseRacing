@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@500;600;700;800;900;1000&display=swap");
+
+:root {
+  font-family: "Nunito", system-ui, sans-serif;
+  color: #f8f7ff;
+  background: #17152f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  --bg: #17152f;
+  --panel: #24204a;
+  --panel-light: #302a5c;
+  --yellow: #ffcb57;
+  --coral: #ff7777;
+  --mint: #65e6c4;
+  --muted: #aaa6c8;
+  --mono: "DM Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(91, 67, 160, .2), transparent 35rem),
+    var(--bg);
+}
+
+button, a { font: inherit; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+button:disabled { cursor: not-allowed; }
