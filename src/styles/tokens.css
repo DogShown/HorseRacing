@@ -39,3 +39,20 @@ button, a { font: inherit; }
 button:focus-visible, a:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
 button:disabled { cursor: not-allowed; }
 ::selection { color: var(--color-ink); background: var(--color-gold); }
+
+
+:root {
+  --content-width: 1320px;
+  --color-bg: #101b16;
+  --color-surface: #1a2921;
+  --color-surface-raised: #24372c;
+  --color-gold: #d4b36e;
+  --color-coral: #9d4e50;
+  --color-mint: #b5c4a4;
+  --color-text: #f4f0e5;
+  --color-text-muted: #b5b8aa;
+  --color-border: rgba(222, 209, 176, .16);
+  --shadow-card: 0 18px 42px rgba(0, 0, 0, .24);
+  --radius-sm: 5px; --radius-md: 9px; --radius-lg: 14px; --radius-xl: 20px;
+}
+body { background: radial-gradient(ellipse at 50% -12%, #2b4434 0%, #101b16 58%); }
