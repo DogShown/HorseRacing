@@ -1,30 +1,70 @@
 @media (max-width: 850px) {
-  .game-layout { grid-template-columns: minmax(0, 1fr) 235px; gap: 14px; }
-  .hero { padding-left: 35px; }.hero-art { right: 0; width: 40%; }
-  .game-sidebar { gap: 10px; }.score-card, .controls-card, .how-to-card { padding: 14px; }
+  .hero { padding-left: 35px; }
+  .hero-art { right: 0; width: 40%; }
+  .game-sidebar { gap: 10px; }
+  .score-card, .controls-card, .how-to-card { padding: 14px; }
+}
+
+@media (max-width: 760px) {
+  .game-layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .game-sidebar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .how-to-card { grid-column: auto; }
+  .how-to-card ol { gap: 8px; }
+  .how-to-card li { align-items: flex-start; font-size: 9px; }
 }
 
 @media (max-width: 680px) {
   .app-shell { width: min(100% - 28px, 520px); }
-  .topbar { min-height: 64px; }.brand { font-size: 15px; }.topbar-stats { gap: 9px; font-size: 9px; }.status-pill { padding: 7px 8px; }
+  .topbar { min-height: 64px; }
+  .brand { font-size: 15px; }
+  .topbar-stats { gap: 9px; font-size: 9px; }
+  .status-pill { padding: 7px 8px; }
   .hero { min-height: 270px; margin: 18px 0 24px; padding: 26px 22px; border-radius: 19px; }
-  .hero h1 { font-size: clamp(47px, 12vw, 65px); }.hero-copy { max-width: 72%; }.hero-copy > p { font-size: 12px; }.hero-meta { max-width: 240px; font-size: 8px; gap: 6px; }
-  .hero-art { right: -10%; width: 48%; opacity: .85; }.hero-horse { font-size: 115px; }.sunburst { width: 165px; height: 165px; }.hero-speed { right: 5%; bottom: 24%; font-size: 18px; }
-  .game-layout { grid-template-columns: 1fr; }.game-sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .how-to-card { grid-column: 1 / -1; }.how-to-card ol { grid-template-columns: repeat(3, 1fr); gap: 7px; }.how-to-card li { align-items: flex-start; font-size: 9px; }
-  .score-card > strong { font-size: 35px; }.controls-card h3 { font-size: 16px; }
+  .hero h1 { font-size: clamp(47px, 12vw, 65px); }
+  .hero-copy { max-width: 72%; }
+  .hero-copy > p { font-size: 12px; }
+  .hero-meta { max-width: 240px; font-size: 8px; gap: 6px; }
+  .hero-art { right: -10%; width: 48%; opacity: .85; }
+  .hero-horse { font-size: 115px; }
+  .sunburst { width: 165px; height: 165px; }
+  .hero-speed { right: 5%; bottom: 24%; font-size: 18px; }
+  .game-layout { grid-template-columns: 1fr; }
+  .game-sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .how-to-card { grid-column: 1 / -1; }
+  .how-to-card ol { grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .how-to-card li { align-items: flex-start; font-size: 9px; }
+  .score-card > strong { font-size: 35px; }
+  .controls-card h3 { font-size: 16px; }
 }
 
 @media (max-width: 420px) {
   .app-shell { width: calc(100% - 22px); }
-  .topbar-stats { gap: 7px; }.status-pill { font-size: 8px; }.best-score { font-size: 8px; }
-  .hero { min-height: 245px; padding: 22px 16px; }.hero-copy { max-width: 78%; }.hero h1 { font-size: 46px; letter-spacing: -3px; }.hero-art { right: -18%; opacity: .65; }.hero-meta { max-width: 190px; }
-  .horse-options { gap: 7px; }.horse-card { min-height: 128px; padding: 9px; }.horse-avatar { top: 16px; right: 7px; font-size: 31px; }.horse-name { font-size: 15px; }.horse-caption { font-size: 7px; }
-  .race-track { padding-right: 8px; padding-left: 8px; }.lane { height: 58px; }.runner-sprite { font-size: 27px; }
-  .result-panel { flex-wrap: wrap; }.result-copy { flex-basis: calc(100% - 50px); }.play-again-button { width: 100%; }
+  .topbar-stats { gap: 7px; }
+  .status-pill, .best-score { font-size: 8px; }
+  .hero { min-height: 245px; padding: 22px 16px; }
+  .hero-copy { max-width: 78%; }
+  .hero h1 { font-size: 46px; letter-spacing: -3px; }
+  .hero-art { right: -18%; opacity: .65; }
+  .hero-meta { max-width: 190px; }
+  .horse-options { gap: 7px; }
+  .horse-card { min-height: 128px; padding: 9px; }
+  .horse-avatar { top: 16px; right: 7px; font-size: 31px; }
+  .horse-name { font-size: 15px; }
+  .horse-caption { font-size: 7px; }
+  .race-track { padding-right: 8px; padding-left: 8px; }
+  .lane { height: 58px; }
+  .runner-sprite { font-size: 27px; }
+  .result-panel { flex-wrap: wrap; }
+  .result-copy { flex-basis: calc(100% - 50px); }
+  .play-again-button { width: 100%; }
   .footer { flex-direction: column; font-size: 7px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
