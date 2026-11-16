@@ -141,10 +141,20 @@ export default function App() {
           <span className="hero-kicker"><i /> TEMPORADA ABERTA · EDIÇÃO ARCADE</span>
           <h1 id="hero-title">A EMOÇÃO<br /><span>ESTÁ NA PISTA.</span></h1>
           <p>Reúna seu grupo, escolha os competidores e descubra quem cruza a linha de chegada.</p>
-          <div className="hero-actions"><a className="hero-cta" href="#competitors">MONTAR MINHA PROVA <span>↗</span></a><span className="hero-caption">8 CAVALOS · UM CAMPEÃO</span></div>
+          <div className="hero-actions"><a className="hero-cta" href="#competitors">ESCOLHER MEU CAVALO <span>↗</span></a><span className="hero-caption">GRÁTIS · SEM CADASTRO · JOGUE COM AMIGOS</span></div>
         </div>
         <div className="hero-art" aria-hidden="true"><div className="hero-orbit" /><div className="hero-number">01<span>/08</span></div><span className="hero-horse">🐎</span><span className="hero-ribbon">HORSE DASH CLUB</span></div>
         <div className="hero-foot"><span>TRADIÇÃO EQUESTRE, COMPETIÇÃO E DIVERSÃO.</span><span>EST. 2026</span></div>
+      </section>
+
+      <section className="first-visit" aria-label="Como começar a jogar">
+        <div className="first-visit-heading"><span className="first-visit-icon">✦</span><div><p className="eyebrow">SUA PRIMEIRA CORRIDA</p><h2>É fácil entrar na disputa.</h2><p>Em menos de um minuto, seu grupo já pode estar na pista.</p></div></div>
+        <div className="first-visit-steps">
+          <article><span className="step-number">01</span><div><strong>Escolha</strong><small>Selecione um cavalo para representar você.</small></div></article>
+          <article><span className="step-number">02</span><div><strong>Convide o grupo</strong><small>Personalize os nomes dos participantes no mesmo dispositivo.</small></div></article>
+          <article><span className="step-number">03</span><div><strong>Dê a largada</strong><small>Acompanhe a corrida e some pontos no ranking.</small></div></article>
+        </div>
+        <a className="first-visit-link" href="#competitors">COMEÇAR AGORA <span>↓</span></a>
       </section>
 
       <div className="game-layout">
