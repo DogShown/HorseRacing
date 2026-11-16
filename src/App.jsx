@@ -106,7 +106,7 @@ function RaceTrack({ horses, isRacing, winners }) {
             aria-label={`Progresso de ${horse.name}`}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Math.round(horse.progress)}
+            aria-valuenow={Math.min(100, Math.round(horse.progress))}
           >
             <span className="lane-number" aria-hidden="true">0{index + 1}</span>
             <div className="lane-ground">
