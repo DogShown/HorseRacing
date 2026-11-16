@@ -145,7 +145,7 @@ function RaceTrack({ horses, isRacing, winners }) {
                 style={{ left: `${Math.min(horse.progress, 95)}%`, "--horse-color": horse.color }}
               >
                 <span className="runner-sprite" aria-hidden="true">{horse.emoji}</span>
-                <span className="runner-name">{horse.name}</span>
+                <span className="runner-name">{horse.name} · {horse.participant}</span>
               </div>
             </div>
           </div>
@@ -183,7 +183,7 @@ function ResultPanel({ ranking, selectedHorse, onPlayAgain }) {
           {ranking.map(({ horse, position }) => (
             <li key={horse.id} className={position === 1 ? "rank-first" : ""}>
               <span className="rank-position">{position}º</span>
-              <span className="rank-horse">{horse.name}</span>
+              <span className="rank-horse">{horse.name} <small>— {horse.participant}</small></span>
               {position === 1 && <span className="rank-label">CHEGADA</span>}
             </li>
           ))}
