@@ -35,12 +35,15 @@ A aplicação pode ser publicada na Vercel conectando este repositório e manten
 | `npm run dev` | Inicia o servidor de desenvolvimento. |
 | `npm run build` | Gera os arquivos otimizados em `dist/`. |
 | `npm run preview` | Executa uma prévia local da versão de produção. |
+| `npm test` | Executa testes automatizados da lógica de corrida e pontuação. |
 
 ## Funcionalidades
 
 - Seleção entre três competidores: Comet, Blaze e Pixel.
 - Corrida animada com avanço aleatório dos cavalos.
 - Identificação do vencedor considerando o instante em que cada cavalo cruza a chegada.
+- Empates tratados como resultado próprio, sem concessão de pontos.
+- Movimentação aleatória com a mesma faixa de velocidade para todos os competidores.
 - Ganho de 100 pontos quando o cavalo escolhido vence.
 - Pontuação acumulada salva no `localStorage` do navegador.
 - Possibilidade de iniciar novas corridas sem perder a pontuação.
@@ -75,7 +78,8 @@ src/
 - **useState:** estado da interface, pontuação e competidores.
 - **useEffect:** ciclo da corrida, persistência local e limpeza dos temporizadores.
 - **useRef:** referência ao progresso atual sem depender de renderizações intermediárias.
-- **localStorage:** armazenamento local da pontuação.
+- **localStorage:** armazenamento local da pontuação, com validação de valores recuperados.
+- **Node.js Test Runner:** testes determinísticos das regras de corrida e pontuação.
 - **CSS:** identidade visual, animações, responsividade e estados de foco.
 
 ## Limitações conhecidas
