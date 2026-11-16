@@ -28,3 +28,21 @@
 .section-heading h2 { margin: 0; font-family: var(--font-display); font-size: 30px; font-weight: 700; letter-spacing: .2px; }
 .step-label { color: var(--muted); font: 10px var(--mono); }
 .hero-tag, .hero-meta, .hero-bottom-label, .step-label, .race-status, .horse-caption, .horse-number, .runner-name, .lane-number, .track-start, .footer, .control-note { font-family: var(--mono); }
+
+
+/* Entrada coordenada: o React libera a animação no primeiro frame útil. */
+.app-shell > * { opacity: 0; transform: translateY(12px); }
+.app-shell.is-ready > * { opacity: 1; transform: translateY(0); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.75,.25,1); }
+.app-shell.is-ready > .topbar { transition-delay: .02s; }
+.app-shell.is-ready > .hero { transition-delay: .09s; }
+.app-shell.is-ready .game-main { transition-delay: .16s; }
+.app-shell.is-ready .game-sidebar { transition-delay: .23s; }
+.hero-art { transform-origin: 55% 60%; animation: hero-float 5s ease-in-out infinite; }
+.sunburst { animation: sun-turn 38s linear infinite; }
+.hero-spark { animation: sparkle 2.4s ease-in-out infinite; }
+.spark-two { animation-delay: 1.1s; }
+@keyframes hero-float { 0%,100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+@keyframes sun-turn { to { rotate: 360deg; } }
+@keyframes sparkle { 0%,100% { opacity: .45; scale: .8; } 50% { opacity: 1; scale: 1.2; } }
+.section-heading h2 { transition: letter-spacing .3s ease, color .3s ease; }
+.section-heading:hover h2 { letter-spacing: .7px; }
