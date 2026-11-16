@@ -36,39 +36,34 @@ function HorseIcon({ color = "#8b7355", className = "" }) {
   return (
     <svg
       className={className}
-      viewBox="0 0 128 96"
+      viewBox="0 0 160 120"
       role="img"
-      aria-label="Ilustração de cavalo de corrida"
+      aria-label="Silhueta de cavalo de corrida"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g fill={color}>
-        {/* Cauda e garupa */}
-        <path d="M25 43C17 38 12 29 8 22c-2-4-5-3-6 0-2 9 5 22 17 29l8 3z" />
-        {/* Corpo */}
-        <path d="M24 43c8-9 21-13 36-12 12 1 20 6 27 12l-5 17c-12 5-34 5-49-1-8-3-12-8-9-16z" />
+      <g fill={color} stroke={color} strokeLinecap="round" strokeLinejoin="round">
+        {/* Cauda fluida */}
+        <path d="M31 47C20 42 15 31 9 24c-3-4-7-2-6 3 2 14 11 25 27 30l8-4z" stroke="none" />
+        {/* Corpo e garupa */}
+        <path d="M29 48c9-12 25-18 44-17 17 1 29 8 39 18l-7 22c-14 8-42 8-61 1-13-5-19-13-15-24z" stroke="none" />
         {/* Pescoço */}
-        <path d="M73 43c7-10 10-22 17-31 4-5 11-7 17-4 4 2 5 7 2 11l-8 10c-2 8-1 17 5 25l-13 9-17-8z" />
+        <path d="M94 52c6-13 10-28 18-39 5-7 13-10 20-6 5 3 5 9 1 14l-10 12c-2 10 1 20 8 29l-18 13-21-9z" stroke="none" />
         {/* Cabeça e focinho */}
-        <path d="M98 13c6-7 15-8 21-3 5 4 5 10 1 14l-8 5-13-3-7-7z" />
+        <path d="M123 11c8-7 19-7 25-1 5 5 3 12-3 16l-10 5-13-5-8-7z" stroke="none" />
         {/* Orelhas */}
-        <path d="m101 9 1-8 6 8zm10-1 5-6 2 10z" />
+        <path d="m126 8 2-8 7 8m3 1 7-6 1 11" fill="none" strokeWidth="4" />
         {/* Crina */}
-        <path d="M78 31c2-12 8-23 17-29-2 8-1 13 3 17-8 2-10 7-12 15z" opacity=".78" />
-        {/* Pernas dianteiras em galope */}
-        <path d="M83 57c4 3 8 7 11 12l13 7-3 5-19-7-10-13zm-8 1c-1 8-4 14-10 19l-4 12-6-1 2-16 10-20z" />
+        <path d="M91 43c2-17 10-32 22-40-2 11 1 17 7 21-11 3-15 11-18 24z" stroke="none" />
+        {/* Pernas dianteiras em movimento */}
+        <path d="M101 69c7 7 11 14 15 22l18 8-4 7-25-8-14-20zm-12 2c-2 12-8 20-17 28l-7 14-8-3 5-19 18-27z" stroke="none" />
         {/* Pernas traseiras */}
-        <path d="M36 58c-4 7-9 11-17 13L9 83l-5-3 8-18 15-14zm14 4c4 7 5 13 3 20l5 9-6 3-10-10 1-18z" />
+        <path d="M48 67c-5 10-13 17-24 21L11 104l-7-5 11-23 23-20zm17 7c8 8 11 16 10 26l8 14-8 5-15-14 1-22z" stroke="none" />
       </g>
-      <g fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 20C1 12 2 7 7 4" strokeWidth="3" />
-        <path d="M91 13c4 5 7 7 12 8" strokeWidth="2" opacity=".55" />
-      </g>
-      <circle cx="115" cy="16" r="1.8" fill="#202b24" />
-      <path d="m121 23 4 1" stroke="#202b24" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M126 20c3 2 6 3 10 3" fill="none" stroke="rgba(25,32,27,.55)" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="139" cy="17" r="2" fill="#202b24" />
     </svg>
   );
 }
-
 function Header({ score, bestScore }) {
   validateComponentProps("Header", { score, bestScore }, { score: "number", bestScore: "number" });
   return (
