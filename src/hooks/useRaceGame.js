@@ -17,7 +17,10 @@ function readSavedScore() {
 export function useRaceGame() {
   const [selectedHorse, setSelectedHorse] = useState("comet");
   const [horses, setHorses] = useState(createInitialHorses);
-  const raceHorsesRef = useRef(createInitialHorses());
+  const raceHorsesRef = useRef(null);
+  if (raceHorsesRef.current === null) {
+    raceHorsesRef.current = createInitialHorses();
+  }
   const [isRacing, setIsRacing] = useState(false);
   const [winner, setWinner] = useState(null);
   const [score, setScore] = useState(readSavedScore);
