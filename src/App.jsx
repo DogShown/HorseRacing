@@ -42,7 +42,7 @@ function Header({ score, bestScore }) {
         <span>HORSE <strong>DASH!</strong></span>
       </a>
       <div className="topbar-stats">
-        <span className="status-pill"><span className="status-dot" aria-hidden="true" /> MODO ARCADE</span>
+        <span className="status-pill"><span className="status-dot" aria-hidden="true" /> CLUBE HÍPICO • ARCADE</span>
         <span className="best-score">PONTOS <strong>{score}</strong></span>
         <span className="best-score">RECORDE <strong>{bestScore}</strong></span>
       </div>
@@ -58,8 +58,8 @@ function HorseSelector({ selectedHorse, onSelect, disabled }) {
     <section className="selection-section" aria-labelledby="select-title">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">ESCOLHA SEU COMPETIDOR</p>
-          <h2 id="select-title">Escolha seu cavalo</h2>
+          <p className="eyebrow">PROGRAMA OFICIAL DA PROVA</p>
+          <h2 id="select-title">Inscrições da corrida</h2>
         </div>
         <span className="step-label">ETAPA 01 / 02</span>
       </div>
@@ -110,7 +110,7 @@ function RaceTrack({ horses, isRacing, winners }) {
       <div className="section-heading track-heading">
         <div>
           <p className="eyebrow">ETAPA 02 / 02</p>
-          <h2 id="race-title">Pista de corrida</h2>
+          <h2 id="race-title">Pista principal</h2>
         </div>
         <span className={`race-status ${isRacing ? "live" : ""}`} role="status" aria-live="polite">
           <span aria-hidden="true" /> {status}
@@ -151,7 +151,7 @@ function RaceTrack({ horses, isRacing, winners }) {
         ))}
         <div className="track-grass" aria-hidden="true" />
       </div>
-      <p className="track-hint">Acompanhe o progresso de cada competidor até a linha de chegada!</p>
+      <p className="track-hint">Acompanhe cada competidor até a linha de chegada.</p>
     </section>
   );
 }
@@ -201,7 +201,7 @@ function StatisticsPanel({ racesPlayed, wins }) {
   });
   return (
     <section className="statistics-card" aria-labelledby="statistics-title">
-      <p className="eyebrow" id="statistics-title">SUAS ESTATÍSTICAS</p>
+      <p className="eyebrow" id="statistics-title">SEU HISTÓRICO DE PROVAS</p>
       <div className="statistics-grid">
         <div><strong>{racesPlayed}</strong><span>CORRIDAS</span></div>
         <div><strong>{wins}</strong><span>VITÓRIAS</span></div>
@@ -234,15 +234,15 @@ export default function App() {
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
-          <span className="hero-tag">★ CORRIDA ARCADE • DIVERSÃO SEM LIMITES ★</span>
-          <h1 id="hero-title">READY.<br /><span>SET.</span> DASH!</h1>
-          <p>Escolha seu campeão, entre na pista e corra rumo à vitória.</p>
+          <span className="hero-tag">★ TRADIÇÃO EQUESTRE • EMOÇÃO NA PISTA ★</span>
+          <h1 id="hero-title">THE RACE.<br /><span>THE PRIDE.</span></h1>
+          <p>Conheça os competidores, acompanhe a prova e celebre a chegada.</p>
           <div className="hero-meta">
-            <span>⚡ CORRIDAS RÁPIDAS</span>
+            <span>🏇 PROVA ARCADE</span>
             <span aria-hidden="true">•</span>
-            <span>🏆 MUITA DIVERSÃO</span>
+            <span>🏆 CLASSIFICAÇÃO OFICIAL</span>
             <span aria-hidden="true">•</span>
-            <span>🎮 MODO ARCADE</span>
+            <span>✦ CLUBE HÍPICO</span>
           </div>
         </div>
         <div className="hero-art" aria-hidden="true">
@@ -252,7 +252,7 @@ export default function App() {
           <span className="hero-spark spark-two">✧</span>
           <span className="hero-speed">VAI!</span>
         </div>
-        <div className="hero-bottom-label">SEM APOSTAS. SÓ CORRIDA.</div>
+        <div className="hero-bottom-label">ESPORTE, TRADIÇÃO E ENTRETENIMENTO.</div>
       </section>
 
       <div className="game-layout">
@@ -285,7 +285,7 @@ export default function App() {
           <StatisticsPanel racesPlayed={racesPlayed} wins={wins} />
 
           <div className="controls-card">
-            <p className="eyebrow">CONTROLES DA CORRIDA</p>
+            <p className="eyebrow">CENTRAL DA PROVA</p>
             <h3>{isRacing ? "Os cavalos estão correndo!" : ranking.length ? "Pronto para outra?" : "Vamos começar?"}</h3>
             <p className="race-message" role="status" aria-live="polite">{raceMessage}</p>
             <button className="start-button" type="button" onClick={startRace} disabled={isRacing}>
@@ -307,7 +307,7 @@ export default function App() {
 
       <footer className="footer">
         <span>HORSE DASH! <strong>ARCADE RACING</strong></span>
-        <span>FEITO PARA DIVERSÃO • SEM APOSTAS OU DINHEIRO REAL</span>
+        <span>JOGO ARCADE • SEM APOSTAS OU DINHEIRO REAL</span>
       </footer>
     </main>
   );
