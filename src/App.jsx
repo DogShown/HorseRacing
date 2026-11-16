@@ -1,5 +1,4 @@
 import React from "react";
-import { HORSES } from "./data/horses.js";
 import { POINTS_PER_WIN } from "./game/constants.js";
 import { useRaceGame } from "./hooks/useRaceGame.js";
 
@@ -50,40 +49,42 @@ function Header({ score, bestScore }) {
   );
 }
 
-function HorseSelector({ selectedHorse, onSelect, disabled }) {
-  validateComponentProps("HorseSelector", { selectedHorse, onSelect, disabled }, {
-    selectedHorse: "string", onSelect: "function", disabled: "boolean",
+function HorseSelector({ horses, selectedHorse, onSelect, onUpdate, disabled }) {
+  validateComponentProps("HorseSelector", { horses, selectedHorse, onSelect, onUpdate, disabled }, {
+    horses: "array", selectedHorse: "string", onSelect: "function", onUpdate: "function", disabled: "boolean",
   });
   return (
     <section className="selection-section" aria-labelledby="select-title">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">PROGRAMA OFICIAL DA PROVA</p>
-          <h2 id="select-title">Inscrições da corrida</h2>
+          <p className="eyebrow">PROGRAMA DA PROVA • 8 COMPETIDORES</p>
+          <h2 id="select-title">Monte seu grupo</h2>
+          <p className="section-intro">Personalize os cavalos e identifique quem está participando. As alterações ficam salvas neste navegador.</p>
         </div>
-        <span className="step-label">ETAPA 01 / 02</span>
+        <span className="step-label">EDIÇÃO LIVRE</span>
       </div>
 
       <div className="horse-options">
-        {HORSES.map((horse) => {
+        {horses.map((horse) => {
           const isSelected = selectedHorse === horse.id;
-
           return (
-            <button
-              className={`horse-card ${isSelected ? "selected" : ""} ${horse.style}`}
-              key={horse.id}
-              type="button"
-              onClick={() => onSelect(horse.id)}
-              disabled={disabled}
-              aria-pressed={isSelected}
-              aria-label={`Selecionar ${horse.name}${isSelected ? ", selecionado" : ""}`}
-            >
-              <span className="horse-number">#{horse.number}</span>
-              <span className="horse-avatar" aria-hidden="true">{horse.emoji}</span>
-              <span className="horse-name">{horse.name}</span>
-              <span className="horse-caption">{isSelected ? "SELECIONADO" : "ESCOLHER"}</span>
-              {isSelected && <span className="selected-check" aria-hidden="true">✓</span>}
-            </button>
+            <article className={`horse-card ${isSelected ? "selected" : ""} ${horse.style}`} key={horse.id}>
+              <button className="horse-pick" type="button" onClick={() => onSelect(horse.id)} disabled={disabled} aria-pressed={isSelected}>
+                <span className="horse-number">#{horse.number}</span>
+                <span className="horse-avatar" aria-hidden="true">{horse.emoji}</span>
+                <span className="horse-name">{horse.name}</span>
+                <span className="horse-caption">{isSelected ? "SEU COMPETIDOR" : "SELECIONAR"}</span>
+              </button>
+              <label className="horse-field">Nome do cavalo
+                <input value={horse.name} maxLength={22} disabled={disabled} onChange={(event) => onUpdate(horse.id, "name", event.target.value)} aria-label={`Nome do cavalo ${horse.number}`} />
+              </label>
+              <label className="horse-field">Raça (opcional)
+                <input value={horse.breed} maxLength={32} disabled={disabled} onChange={(event) => onUpdate(horse.id, "breed", event.target.value)} aria-label={`Raça do cavalo ${horse.number}`} />
+              </label>
+              <label className="horse-field">Participante
+                <input value={horse.participant} maxLength={22} disabled={disabled} onChange={(event) => onUpdate(horse.id, "participant", event.target.value)} aria-label={`Participante do cavalo ${horse.number}`} />
+              </label>
+            </article>
           );
         })}
       </div>
@@ -132,7 +133,7 @@ function RaceTrack({ horses, isRacing, winners }) {
             aria-valuemax={100}
             aria-valuenow={Math.min(100, Math.round(horse.progress))}
           >
-            <span className="lane-number" aria-hidden="true">0{index + 1}</span>
+            <span className="lane-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
             <div className="lane-ground">
               <div
                 className="lane-progress"
@@ -236,7 +237,7 @@ export default function App() {
         <div className="hero-copy">
           <span className="hero-tag">★ TRADIÇÃO EQUESTRE • EMOÇÃO NA PISTA ★</span>
           <h1 id="hero-title">THE RACE.<br /><span>THE PRIDE.</span></h1>
-          <p>Conheça os competidores, acompanhe a prova e celebre a chegada.</p>
+          <p>Reúna seus amigos, personalize os competidores e acompanhe a classificação da prova.</p>
           <div className="hero-meta">
             <span>🏇 PROVA ARCADE</span>
             <span aria-hidden="true">•</span>
@@ -257,7 +258,7 @@ export default function App() {
 
       <div className="game-layout">
         <div className="game-main">
-          <HorseSelector selectedHorse={selectedHorse} onSelect={selectHorse} disabled={isRacing} />
+          <HorseSelector horses={horses} selectedHorse={selectedHorse} onSelect={selectHorse} onUpdate={updateHorseProfile} disabled={isRacing} />
           <RaceTrack horses={horses} isRacing={isRacing} winners={winners} />
           <ResultPanel ranking={ranking} selectedHorse={selectedHorse} onPlayAgain={resetGame} />
         </div>
@@ -291,13 +292,13 @@ export default function App() {
             <button className="start-button" type="button" onClick={startRace} disabled={isRacing}>
               {isRacing ? "CORRIDA EM ANDAMENTO..." : ranking.length ? "CORRER NOVAMENTE" : "INICIAR CORRIDA"} <span aria-hidden="true">▶</span>
             </button>
-            <p className="control-note">Você pode trocar de cavalo antes de cada corrida.</p>
+            <p className="control-note">A disputa usa pontos recreativos; nomes, raças e participantes ficam salvos neste navegador.</p>
           </div>
 
           <div className="how-to-card">
             <p className="eyebrow">COMO JOGAR</p>
             <ol>
-              <li><span>01</span> Escolha seu cavalo favorito.</li>
+              <li><span>01</span> Personalize o grupo e escolha seu competidor.</li>
               <li><span>02</span> Aperte “Iniciar corrida”.</li>
               <li><span>03</span> Torça pelo seu campeão!</li>
             </ol>
@@ -307,7 +308,7 @@ export default function App() {
 
       <footer className="footer">
         <span>HORSE DASH! <strong>ARCADE RACING</strong></span>
-        <span>JOGO ARCADE • SEM APOSTAS OU DINHEIRO REAL</span>
+        <span>MODO GRUPO LOCAL • SEM APOSTAS OU DINHEIRO REAL</span>
       </footer>
     </main>
   );
