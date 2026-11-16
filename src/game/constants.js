@@ -18,5 +18,6 @@ export const STORAGE_KEYS = Object.freeze({
   BEST_SCORE: "horse-dash-best-score",
   RACES_PLAYED: "horse-dash-races-played",
   WINS: "horse-dash-wins",
+  PARTICIPANT_SCORES: "horse-dash-participant-scores",
   HORSE_PROFILES: "horse-dash-horse-profiles",
 });
