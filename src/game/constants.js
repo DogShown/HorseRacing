@@ -1,5 +1,5 @@
 export const POINTS_PER_WIN = 100;
-export const COMPETITOR_COUNT = 3;
+export const COMPETITOR_COUNT = 8;
 export const RACE_DISTANCE = 100;
 export const RACE_TICK_INTERVAL_MS = 90;
 export const FINISH_DELAY_MS = 350;
@@ -18,4 +18,5 @@ export const STORAGE_KEYS = Object.freeze({
   BEST_SCORE: "horse-dash-best-score",
   RACES_PLAYED: "horse-dash-races-played",
   WINS: "horse-dash-wins",
+  HORSE_PROFILES: "horse-dash-horse-profiles",
 });
