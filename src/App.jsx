@@ -1,5 +1,21 @@
 import { HORSES } from "./data/horses.js";
+import { POINTS_PER_WIN } from "./game/constants.js";
 import { useRaceGame } from "./hooks/useRaceGame.js";
+
+function validateComponentProps(componentName, props, schema) {
+  if (!import.meta.env.DEV) return;
+
+  for (const [propName, expectedType] of Object.entries(schema)) {
+    const value = props[propName];
+    const valid = expectedType === "array"
+      ? Array.isArray(value)
+      : typeof value === expectedType;
+
+    if (!valid) {
+      console.error(`[${componentName}] esperava "${propName}" como ${expectedType}.`);
+    }
+  }
+}
 
 function validateHorseCollection(componentName, horses) {
   if (!import.meta.env.DEV) return;
@@ -17,6 +33,7 @@ function validateHorseCollection(componentName, horses) {
 }
 
 function Header({ score, bestScore }) {
+  validateComponentProps("Header", { score, bestScore }, { score: "number", bestScore: "number" });
   return (
     <header className="topbar">
       <a className="brand" href="#home" aria-label="Horse Dash, início">
@@ -33,6 +50,9 @@ function Header({ score, bestScore }) {
 }
 
 function HorseSelector({ selectedHorse, onSelect, disabled }) {
+  validateComponentProps("HorseSelector", { selectedHorse, onSelect, disabled }, {
+    selectedHorse: "string", onSelect: "function", disabled: "boolean",
+  });
   return (
     <section className="selection-section" aria-labelledby="select-title">
       <div className="section-heading">
@@ -71,6 +91,9 @@ function HorseSelector({ selectedHorse, onSelect, disabled }) {
 }
 
 function RaceTrack({ horses, isRacing, winners }) {
+  validateComponentProps("RaceTrack", { horses, isRacing, winners }, {
+    horses: "array", isRacing: "boolean", winners: "array",
+  });
   validateHorseCollection("RaceTrack", horses);
   const winnerIds = new Set(winners.map((horse) => horse.id));
   const status = isRacing
@@ -133,6 +156,9 @@ function RaceTrack({ horses, isRacing, winners }) {
 }
 
 function ResultPanel({ ranking, selectedHorse, onPlayAgain }) {
+  validateComponentProps("ResultPanel", { ranking, selectedHorse, onPlayAgain }, {
+    ranking: "array", selectedHorse: "string", onPlayAgain: "function",
+  });
   if (ranking.length === 0) return null;
 
   const firstPlace = ranking.filter((item) => item.position === 1);
@@ -142,7 +168,7 @@ function ResultPanel({ ranking, selectedHorse, onPlayAgain }) {
   const resultDescription = isDraw
     ? "A corrida terminou empatada em primeiro lugar. Nenhum ponto foi adicionado."
     : playerWon
-      ? "Seu cavalo venceu! Você ganhou 100 pontos."
+      ? `Seu cavalo venceu! Você ganhou ${POINTS_PER_WIN} pontos.`
       : "Dessa vez não foi o seu cavalo. Tente novamente!";
 
   return (
@@ -169,6 +195,9 @@ function ResultPanel({ ranking, selectedHorse, onPlayAgain }) {
 }
 
 function StatisticsPanel({ racesPlayed, wins }) {
+  validateComponentProps("StatisticsPanel", { racesPlayed, wins }, {
+    racesPlayed: "number", wins: "number",
+  });
   return (
     <section className="statistics-card" aria-labelledby="statistics-title">
       <p className="eyebrow" id="statistics-title">SUAS ESTATÍSTICAS</p>
