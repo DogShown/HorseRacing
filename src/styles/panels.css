@@ -38,3 +38,15 @@
 .storage-warning { margin: 0; padding: 11px 12px; border: 1px solid rgba(201,164,92,.55); border-radius: 3px; background: rgba(201,164,92,.1); color: #f0ddb6; font-size: 11px; line-height: 1.5; }
 
 .rank-horse small { color: var(--muted); font-size: 9px; font-weight: 500; }
+
+
+.score-card, .controls-card, .how-to-card, .statistics-card { transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease; }
+.score-card:hover, .controls-card:hover, .how-to-card:hover, .statistics-card:hover { transform: translateY(-3px); border-color: rgba(201,164,92,.55); box-shadow: 0 12px 28px rgba(0,0,0,.15); }
+.start-button:active, .play-again-button:active, .horse-pick:active { transform: scale(.975); }
+.result-panel { animation: result-enter .55s cubic-bezier(.2,.8,.2,1) both; }
+.final-ranking li { animation: rank-enter .4s ease both; }
+.final-ranking li:nth-child(1) { animation-delay: .08s; }
+.final-ranking li:nth-child(2) { animation-delay: .15s; }
+.final-ranking li:nth-child(3) { animation-delay: .22s; }
+@keyframes result-enter { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes rank-enter { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
