@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HORSES = [
   { id: "comet", name: "Comet", number: "01", color: "#ffcb57", emoji: "🐎", style: "gold" },
@@ -17,7 +17,7 @@ function Header({ bestScore }) {
       </a>
       <div className="topbar-stats">
         <span className="status-pill"><span className="status-dot" /> ARCADE MODE</span>
-        <span className="best-score">BEST <strong>{bestScore}</strong></span>
+        <span className="best-score">SCORE <strong>{bestScore}</strong></span>
       </div>
     </header>
   );
@@ -120,6 +120,7 @@ function ResultPanel({ winner, selectedHorse, onPlayAgain }) {
 export default function App() {
   const [selectedHorse, setSelectedHorse] = useState("comet");
   const [horses, setHorses] = useState(INITIAL_HORSES);
+  const raceHorsesRef = useRef(INITIAL_HORSES);
   const [isRacing, setIsRacing] = useState(false);
   const [winner, setWinner] = useState(null);
   const [score, setScore] = useState(() => {
@@ -135,41 +136,46 @@ export default function App() {
   useEffect(() => {
     if (!isRacing) return undefined;
 
+    let finishTimeout;
+
     const raceTimer = window.setInterval(() => {
-      setHorses((currentHorses) => {
-        const updatedHorses = currentHorses.map((horse) => ({
-          ...horse,
-          progress: Math.min(100, horse.progress + 1.1 + Math.random() * 2.2),
-        }));
+      const updatedHorses = raceHorsesRef.current.map((horse) => ({
+        ...horse,
+        progress: Math.min(100, horse.progress + 1.1 + Math.random() * 2.2),
+      }));
 
-        const finishedHorse = updatedHorses.find((horse) => horse.progress >= 100);
+      raceHorsesRef.current = updatedHorses;
+      setHorses(updatedHorses);
 
-        if (finishedHorse) {
-          window.clearInterval(raceTimer);
-          window.setTimeout(() => {
-            setWinner(finishedHorse);
-            setIsRacing(false);
-            setRaceMessage(
-              finishedHorse.id === selectedHorse
-                ? "Parabéns! Seu competidor venceu!"
-                : "A corrida terminou. Que tal tentar outra vez?"
-            );
-            if (finishedHorse.id === selectedHorse) {
-              setScore((currentScore) => currentScore + 100);
-            }
-          }, 350);
-        }
+      const finishedHorse = updatedHorses.find((horse) => horse.progress >= 100);
 
-        return updatedHorses;
-      });
+      if (finishedHorse) {
+        window.clearInterval(raceTimer);
+        finishTimeout = window.setTimeout(() => {
+          setWinner(finishedHorse);
+          setIsRacing(false);
+          setRaceMessage(
+            finishedHorse.id === selectedHorse
+              ? "Parabéns! Seu competidor venceu!"
+              : "A corrida terminou. Que tal tentar outra vez?"
+          );
+          if (finishedHorse.id === selectedHorse) {
+            setScore((currentScore) => currentScore + 100);
+          }
+        }, 350);
+      }
     }, 90);
 
-    return () => window.clearInterval(raceTimer);
+    return () => {
+      window.clearInterval(raceTimer);
+      window.clearTimeout(finishTimeout);
+    };
   }, [isRacing, selectedHorse]);
 
   function startRace() {
     if (isRacing) return;
 
+    raceHorsesRef.current = INITIAL_HORSES;
     setHorses(INITIAL_HORSES);
     setWinner(null);
     setRaceMessage("Corrida em andamento. Vai, vai, vai!");
@@ -179,6 +185,7 @@ export default function App() {
   function resetGame() {
     setIsRacing(false);
     setWinner(null);
+    raceHorsesRef.current = INITIAL_HORSES;
     setHorses(INITIAL_HORSES);
     setRaceMessage("Nova corrida! Escolha seu cavalo.");
   }
