@@ -1,7 +1,22 @@
 import { HORSES } from "./data/horses.js";
 import { useRaceGame } from "./hooks/useRaceGame.js";
 
-function Header({ score }) {
+function validateHorseCollection(componentName, horses) {
+  if (!import.meta.env.DEV) return;
+  const valid = Array.isArray(horses) && horses.every((horse) =>
+    horse &&
+    typeof horse.id === "string" &&
+    typeof horse.name === "string" &&
+    typeof horse.progress === "number" &&
+    Number.isFinite(horse.progress)
+  );
+
+  if (!valid) {
+    console.error(`[${componentName}] recebeu uma coleção de cavalos inválida.`);
+  }
+}
+
+function Header({ score, bestScore }) {
   return (
     <header className="topbar">
       <a className="brand" href="#home" aria-label="Horse Dash, início">
@@ -11,6 +26,7 @@ function Header({ score }) {
       <div className="topbar-stats">
         <span className="status-pill"><span className="status-dot" aria-hidden="true" /> MODO ARCADE</span>
         <span className="best-score">PONTOS <strong>{score}</strong></span>
+        <span className="best-score">RECORDE <strong>{bestScore}</strong></span>
       </div>
     </header>
   );
@@ -55,6 +71,7 @@ function HorseSelector({ selectedHorse, onSelect, disabled }) {
 }
 
 function RaceTrack({ horses, isRacing, winners }) {
+  validateHorseCollection("RaceTrack", horses);
   const winnerIds = new Set(winners.map((horse) => horse.id));
   const status = isRacing
     ? "Corrida em andamento"
@@ -94,6 +111,11 @@ function RaceTrack({ horses, isRacing, winners }) {
             <span className="lane-number" aria-hidden="true">0{index + 1}</span>
             <div className="lane-ground">
               <div
+                className="lane-progress"
+                aria-hidden="true"
+                style={{ width: `${Math.min(horse.progress, 100)}%` }}
+              />
+              <div
                 className={`runner ${horse.style} ${isRacing ? "running" : ""} ${winnerIds.has(horse.id) ? "winner-runner" : ""}`}
                 style={{ left: `${Math.min(horse.progress, 95)}%`, "--horse-color": horse.color }}
               >
@@ -105,47 +127,55 @@ function RaceTrack({ horses, isRacing, winners }) {
         ))}
         <div className="track-grass" aria-hidden="true" />
       </div>
-      <p className="track-hint">Acompanhe os competidores até a linha de chegada!</p>
+      <p className="track-hint">Acompanhe o progresso de cada competidor até a linha de chegada!</p>
     </section>
   );
 }
 
-function ResultPanel({ winners, selectedHorse, onPlayAgain }) {
-  if (winners.length === 0) return null;
+function ResultPanel({ ranking, selectedHorse, onPlayAgain }) {
+  if (ranking.length === 0) return null;
 
-  const isDraw = winners.length > 1;
-  const playerWon = !isDraw && winners[0].id === selectedHorse;
-  const names = winners.map((horse) => horse.name).join(" e ");
+  const firstPlace = ranking.filter((item) => item.position === 1);
+  const playerWon = firstPlace.length === 1 && firstPlace[0].horse.id === selectedHorse;
+  const isDraw = firstPlace.length > 1;
+  const resultLabel = isDraw ? "EMPATE!" : playerWon ? "VITÓRIA!" : "BOA TENTATIVA!";
+  const resultDescription = isDraw
+    ? "A corrida terminou empatada em primeiro lugar. Nenhum ponto foi adicionado."
+    : playerWon
+      ? "Seu cavalo venceu! Você ganhou 100 pontos."
+      : "Dessa vez não foi o seu cavalo. Tente novamente!";
 
   return (
-    <section
-      className={`result-panel ${playerWon ? "result-win" : "result-again"}`}
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      <span className="result-icon" aria-hidden="true">
-        {isDraw ? "🤝" : playerWon ? "🏆" : "🎮"}
-      </span>
+    <section className={`result-panel ${playerWon ? "result-win" : "result-again"}`} role="status" aria-live="polite" aria-atomic="true">
+      <span className="result-icon" aria-hidden="true">{isDraw ? "🤝" : playerWon ? "🏆" : "🎮"}</span>
       <div className="result-copy">
-        <p className="eyebrow">
-          {isDraw ? "EMPATE!" : playerWon ? "VITÓRIA!" : "BOA TENTATIVA!"}
-        </p>
-        <h2>
-          {isDraw
-            ? `${names} cruzaram juntos a linha de chegada!`
-            : `${names} cruzou a linha de chegada!`}
-        </h2>
-        <p>
-          {isDraw
-            ? "A corrida terminou empatada. Nenhum ponto foi adicionado."
-            : playerWon
-              ? "Seu cavalo venceu! Você ganhou 100 pontos."
-              : "Dessa vez não foi o seu cavalo. Tente novamente!"}
-        </p>
+        <p className="eyebrow">{resultLabel}</p>
+        <h2>{resultDescription}</h2>
+        <ol className="final-ranking" aria-label="Classificação final da corrida">
+          {ranking.map(({ horse, position }) => (
+            <li key={horse.id} className={position === 1 ? "rank-first" : ""}>
+              <span className="rank-position">{position}º</span>
+              <span className="rank-horse">{horse.name}</span>
+              {position === 1 && <span className="rank-label">CHEGADA</span>}
+            </li>
+          ))}
+        </ol>
       </div>
       <button className="play-again-button" type="button" onClick={onPlayAgain}>
         NOVA CORRIDA ↗
       </button>
+    </section>
+  );
+}
+
+function StatisticsPanel({ racesPlayed, wins }) {
+  return (
+    <section className="statistics-card" aria-labelledby="statistics-title">
+      <p className="eyebrow" id="statistics-title">SUAS ESTATÍSTICAS</p>
+      <div className="statistics-grid">
+        <div><strong>{racesPlayed}</strong><span>CORRIDAS</span></div>
+        <div><strong>{wins}</strong><span>VITÓRIAS</span></div>
+      </div>
     </section>
   );
 }
@@ -157,7 +187,11 @@ export default function App() {
     horses,
     isRacing,
     winners,
+    ranking,
     score,
+    bestScore,
+    racesPlayed,
+    wins,
     raceMessage,
     startRace,
     resetGame,
@@ -165,7 +199,7 @@ export default function App() {
 
   return (
     <main className="app-shell" id="home">
-      <Header score={score} />
+      <Header score={score} bestScore={bestScore} />
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
@@ -192,17 +226,9 @@ export default function App() {
 
       <div className="game-layout">
         <div className="game-main">
-          <HorseSelector
-            selectedHorse={selectedHorse}
-            onSelect={selectHorse}
-            disabled={isRacing}
-          />
+          <HorseSelector selectedHorse={selectedHorse} onSelect={selectHorse} disabled={isRacing} />
           <RaceTrack horses={horses} isRacing={isRacing} winners={winners} />
-          <ResultPanel
-            winners={winners}
-            selectedHorse={selectedHorse}
-            onPlayAgain={resetGame}
-          />
+          <ResultPanel ranking={ranking} selectedHorse={selectedHorse} onPlayAgain={resetGame} />
         </div>
 
         <aside className="game-sidebar" aria-label="Painel do jogo">
@@ -213,17 +239,21 @@ export default function App() {
             <div className="score-decoration" aria-hidden="true">🏆</div>
           </div>
 
+          <div className="score-card record-card">
+            <p className="eyebrow">RECORDE PESSOAL</p>
+            <strong>{bestScore}</strong>
+            <span>MELHOR PONTUAÇÃO</span>
+            <div className="score-decoration" aria-hidden="true">⭐</div>
+          </div>
+
+          <StatisticsPanel racesPlayed={racesPlayed} wins={wins} />
+
           <div className="controls-card">
             <p className="eyebrow">CONTROLES DA CORRIDA</p>
-            <h3>{isRacing ? "Os cavalos estão correndo!" : winners.length ? "Pronto para outra?" : "Vamos começar?"}</h3>
+            <h3>{isRacing ? "Os cavalos estão correndo!" : ranking.length ? "Pronto para outra?" : "Vamos começar?"}</h3>
             <p className="race-message" role="status" aria-live="polite">{raceMessage}</p>
-            <button
-              className="start-button"
-              type="button"
-              onClick={startRace}
-              disabled={isRacing}
-            >
-              {isRacing ? "CORRIDA EM ANDAMENTO..." : winners.length ? "CORRER NOVAMENTE" : "INICIAR CORRIDA"} <span aria-hidden="true">▶</span>
+            <button className="start-button" type="button" onClick={startRace} disabled={isRacing}>
+              {isRacing ? "CORRIDA EM ANDAMENTO..." : ranking.length ? "CORRER NOVAMENTE" : "INICIAR CORRIDA"} <span aria-hidden="true">▶</span>
             </button>
             <p className="control-note">Você pode trocar de cavalo antes de cada corrida.</p>
           </div>
