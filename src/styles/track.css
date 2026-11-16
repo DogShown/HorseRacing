@@ -20,3 +20,16 @@
 .track-grass { position: absolute; right: 0; bottom: 0; left: 0; height: 7px; background: repeating-linear-gradient(90deg, #536f49 0 12px, #69845a 12px 24px); pointer-events: none; }
 .track-hint { margin: 9px 2px 0; color: var(--muted); font-size: 11px; }
 .lane-progress { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 2px 0 0 2px; background: rgba(255,255,255,.2); transition: width .09s linear; pointer-events: none; }
+
+
+.runner { transition: left .14s cubic-bezier(.22,.75,.25,1); will-change: left, transform; }
+.lane-progress { transition: width .14s cubic-bezier(.22,.75,.25,1); }
+.runner.running .runner-sprite { animation: gallop .2s ease-in-out infinite alternate; }
+.runner.running { filter: drop-shadow(0 3px 2px rgba(22,35,24,.2)); }
+.runner.winner-runner .runner-sprite { animation: winner-bounce .55s ease-in-out 3; }
+.race-track.racing .track-skyline { animation: cloud-drift 8s linear infinite; }
+.race-track.racing .track-grass { animation: grass-drift .65s linear infinite; }
+@keyframes gallop { from { transform: scaleX(-1) translateY(0) rotate(-3deg); } to { transform: scaleX(-1) translateY(-4px) rotate(4deg); } }
+@keyframes winner-bounce { 0%,100% { transform: scaleX(-1) translateY(0) scale(1); } 50% { transform: scaleX(-1) translateY(-8px) scale(1.16); } }
+@keyframes cloud-drift { from { translate: 0 0; } to { translate: 26px 0; } }
+@keyframes grass-drift { from { background-position: 0 0; } to { background-position: 24px 0; } }
