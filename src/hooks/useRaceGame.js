@@ -215,6 +215,7 @@ export function useRaceGame() {
   return {
     selectedHorse,
     selectHorse,
+    updateHorseProfile,
     horses,
     isRacing,
     raceState: isRacing ? RACE_STATES.RUNNING : ranking.length ? RACE_STATES.FINISHED : RACE_STATES.READY,
