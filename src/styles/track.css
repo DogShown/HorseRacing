@@ -29,7 +29,7 @@
 .runner.winner-runner .runner-sprite { animation: winner-bounce .55s ease-in-out 3; }
 .race-track.racing .track-skyline { animation: cloud-drift 8s linear infinite; }
 .race-track.racing .track-grass { animation: grass-drift .65s linear infinite; }
-@keyframes gallop { from { transform: scaleX(-1) translateY(0) rotate(-3deg); } to { transform: scaleX(-1) translateY(-4px) rotate(4deg); } }
-@keyframes winner-bounce { 0%,100% { transform: scaleX(-1) translateY(0) scale(1); } 50% { transform: scaleX(-1) translateY(-8px) scale(1.16); } }
+@keyframes gallop { from { transform: translateY(0) rotate(-3deg); } to { transform: translateY(-4px) rotate(4deg); } }
+@keyframes winner-bounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.16); } }
 @keyframes cloud-drift { from { translate: 0 0; } to { translate: 26px 0; } }
 @keyframes grass-drift { from { background-position: 0 0; } to { background-position: 24px 0; } }
