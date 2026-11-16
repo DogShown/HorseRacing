@@ -37,3 +37,16 @@
 
 .runner-sprite { color: var(--horse-color); }
 .runner.winner-runner .runner-sprite { filter: drop-shadow(0 0 5px #fff) drop-shadow(0 2px 1px var(--horse-color)); }
+
+
+.race-track { padding:50px 18px 18px; border:1px solid rgba(212,179,110,.42); border-radius:9px; background:linear-gradient(180deg,#dce2cd 0%,#c2d0b1 100%); box-shadow:inset 0 0 0 5px rgba(255,255,255,.2),0 18px 34px rgba(0,0,0,.15); }
+.track-atmosphere { position:absolute; top:13px; right:18px; left:18px; display:flex; justify-content:space-between; color:#596b50; font:8px var(--mono); letter-spacing:1px; }
+.track-atmosphere b { font-size:17px; }
+.track-start { top:25px; left:56px; color:#53664b; }
+.track-finish { top:16px; right:22px; }
+.lane { height:69px; margin-bottom:6px; border-radius:4px; background:repeating-linear-gradient(0deg,#82996e 0 2px,#91a77c 2px 4px); }
+.lane-number { border-color:rgba(255,255,255,.55); background:#263c2d; }
+.lane-ground { margin-left:10px; }
+.runner-name { max-width:104px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; border-radius:3px; font-size:8px; }
+.runner-sprite { font-size:42px; }
+.track-hint { margin-top:12px; font-size:10px; }
