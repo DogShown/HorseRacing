@@ -33,3 +33,7 @@
 @keyframes winner-bounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.16); } }
 @keyframes cloud-drift { from { translate: 0 0; } to { translate: 26px 0; } }
 @keyframes grass-drift { from { background-position: 0 0; } to { background-position: 24px 0; } }
+
+
+.runner-sprite { color: var(--horse-color); }
+.runner.winner-runner .runner-sprite { filter: drop-shadow(0 0 5px #fff) drop-shadow(0 2px 1px var(--horse-color)); }
