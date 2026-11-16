@@ -36,7 +36,10 @@ export function useRaceGame() {
     "Escolha seu cavalo e prepare-se para a corrida."
   );
 
-  const raceHorsesRef = useRef(createInitialHorses());
+  const raceHorsesRef = useRef(null);
+  if (raceHorsesRef.current === null) {
+    raceHorsesRef.current = createInitialHorses();
+  }
   const raceIntervalRef = useRef(null);
   const finishTimeoutRef = useRef(null);
   const raceIdRef = useRef(0);
