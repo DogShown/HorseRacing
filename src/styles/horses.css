@@ -1,0 +1,11 @@
+.horse-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.horse-card { position: relative; min-width: 0; min-height: 143px; display: flex; flex-direction: column; align-items: flex-start; padding: 13px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: var(--panel); color: white; text-align: left; cursor: pointer; transition: transform .18s, border-color .18s, background .18s; }
+.horse-card:hover:not(:disabled) { transform: translateY(-3px); background: var(--panel-light); }
+.horse-card.selected { border: 2px solid var(--horse-accent); background: color-mix(in srgb, var(--panel) 82%, var(--horse-accent)); }
+.horse-card.gold { --horse-accent: var(--yellow); }.horse-card.coral { --horse-accent: var(--coral); }.horse-card.mint { --horse-accent: var(--mint); }
+.horse-number { color: var(--muted); font-size: 9px; }
+.horse-avatar { position: absolute; top: 17px; right: 12px; font-size: 40px; filter: drop-shadow(0 5px 5px rgba(0,0,0,.2)); }
+.horse-name { margin-top: 22px; font-size: 18px; font-weight: 1000; }
+.horse-caption { margin-top: 1px; color: var(--muted); font-size: 8px; letter-spacing: .5px; }
+.selected .horse-caption { color: var(--horse-accent); }
+.selected-check { position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--horse-accent); color: var(--bg); font-size: 12px; font-weight: 900; }
