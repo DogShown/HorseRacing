@@ -32,6 +32,15 @@ function validateHorseCollection(componentName, horses) {
   }
 }
 
+function HorseIcon({ color = "#8b7355", className = "" }) {
+  return (
+    <svg className={className} viewBox="0 0 96 72" role="img" aria-label="Ícone de cavalo">
+      <path fill={color} d="M8 35c7-2 11-8 17-12 8-5 20-6 30-2l8-10 13-5 9 5-2 8 7 7-3 7-12-2-8 5-5 12 4 20h-8l-8-19-13 1-5 18h-8l1-20-11-2-5 20h-8l2-23-8-5c-3-2-2-5 2-5zm47-18 7 3 4-8-8 2zM9 34c-4 0-7-3-8-7 6 1 10 0 14-4l3 5z" />
+      <path fill={color} d="m62 10 3-8 5 8z" />
+    </svg>
+  );
+}
+
 function Header({ score, bestScore }) {
   validateComponentProps("Header", { score, bestScore }, { score: "number", bestScore: "number" });
   return (
@@ -68,10 +77,10 @@ function HorseSelector({ horses, selectedHorse, onSelect, onUpdate, disabled }) 
         {horses.map((horse) => {
           const isSelected = selectedHorse === horse.id;
           return (
-            <article className={`horse-card ${isSelected ? "selected" : ""} ${horse.style}`} key={horse.id}>
+            <article className={`horse-card ${isSelected ? "selected" : ""} ${horse.style}`} key={horse.id} style={{ "--horse-accent": horse.color }}>
               <button className="horse-pick" type="button" onClick={() => onSelect(horse.id)} disabled={disabled} aria-pressed={isSelected}>
                 <span className="horse-number">#{horse.number}</span>
-                <span className="horse-avatar" aria-hidden="true">{horse.emoji}</span>
+                <span className="horse-avatar" aria-hidden="true"><HorseIcon color={horse.color} /></span>
                 <span className="horse-name">{horse.name}</span>
                 <span className="horse-caption">{isSelected ? "SEU COMPETIDOR" : "SELECIONAR"}</span>
               </button>
@@ -83,6 +92,9 @@ function HorseSelector({ horses, selectedHorse, onSelect, onUpdate, disabled }) 
               </label>
               <label className="horse-field">Participante
                 <input value={horse.participant} maxLength={22} disabled={disabled} onChange={(event) => onUpdate(horse.id, "participant", event.target.value)} aria-label={`Participante do cavalo ${horse.number}`} />
+              </label>
+              <label className="horse-field horse-color-field">Cor da pelagem
+                <input type="color" value={horse.color} disabled={disabled} onChange={(event) => onUpdate(horse.id, "color", event.target.value)} aria-label={`Cor da pelagem de ${horse.name}`} />
               </label>
             </article>
           );
@@ -144,7 +156,7 @@ function RaceTrack({ horses, isRacing, winners }) {
                 className={`runner ${horse.style} ${isRacing ? "running" : ""} ${winnerIds.has(horse.id) ? "winner-runner" : ""}`}
                 style={{ left: `${Math.min(horse.progress, 95)}%`, "--horse-color": horse.color }}
               >
-                <span className="runner-sprite" aria-hidden="true">{horse.emoji}</span>
+                <span className="runner-sprite" aria-hidden="true"><HorseIcon color={horse.color} /></span>
                 <span className="runner-name">{horse.name} · {horse.participant}</span>
               </div>
             </div>
@@ -237,6 +249,7 @@ export default function App() {
     startRace,
     resetGame,
   } = useRaceGame();
+  const activeHorse = horses.find((horse) => horse.id === selectedHorse);
 
   return (
     <main className="app-shell" id="home" ref={shellRef}>
@@ -257,7 +270,7 @@ export default function App() {
         </div>
         <div className="hero-art" aria-hidden="true">
           <div className="sunburst" />
-          <span className="hero-horse">🐎</span>
+          <span className="hero-horse"><HorseIcon color={activeHorse?.color ?? "#8b7355"} /></span>
           <span className="hero-spark spark-one">✦</span>
           <span className="hero-spark spark-two">✧</span>
           <span className="hero-speed">VAI!</span>
