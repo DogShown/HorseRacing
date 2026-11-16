@@ -1,3 +1,4 @@
+import React from "react";
 import { HORSES } from "./data/horses.js";
 import { POINTS_PER_WIN } from "./game/constants.js";
 import { useRaceGame } from "./hooks/useRaceGame.js";
